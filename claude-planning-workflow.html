@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Plan and Execute a Project with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F7F4;
+    --ink:#17222C;
+    --ink-soft:#4A5763;
+    --petrol:#0E7C7B;
+    --petrol-dark:#0A5958;
+    --amber:#E8A13D;
+    --line:#D8DDD9;
+    --card:#FFFFFF;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{animation:none!important;transition:none!important}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.65;
+  }
+  a{color:var(--petrol-dark)}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+  header{border-bottom:1px solid var(--line);padding:56px 0 40px}
+  .eyebrow{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--petrol-dark);display:flex;gap:10px;align-items:center;margin-bottom:18px;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--petrol)}
+  h1{
+    font-family:'Archivo',sans-serif;font-weight:800;
+    font-size:clamp(34px,5.5vw,52px);line-height:1.05;letter-spacing:-.015em;
+    font-stretch:95%;
+  }
+  h1 em{font-style:normal;color:var(--petrol)}
+  .lede{margin-top:18px;max-width:620px;color:var(--ink-soft);font-size:18px}
+  .meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{
+    font-family:var(--mono);font-size:12px;padding:4px 10px;border:1px solid var(--line);
+    border-radius:999px;background:var(--card);color:var(--ink-soft)
+  }
+  .tag.warn{border-color:var(--amber);color:#8a5a10;background:#FDF4E4}
+
+  section{padding:52px 0;border-bottom:1px solid var(--line)}
+  h2{
+    font-family:'Archivo',sans-serif;font-weight:750;font-size:26px;letter-spacing:-.01em;
+    margin-bottom:8px;
+  }
+  .sec-note{color:var(--ink-soft);margin-bottom:28px;max-width:640px}
+  h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:18px}
+  code,.path{
+    font-family:var(--mono);font-size:.86em;background:#EAEEEA;border:1px solid var(--line);
+    border-radius:5px;padding:1px 6px;white-space:nowrap
+  }
+
+  .rail{position:relative;padding-left:34px}
+  .rail::before{
+    content:"";position:absolute;left:10px;top:14px;bottom:14px;width:2px;
+    background:repeating-linear-gradient(to bottom,var(--petrol) 0 10px,transparent 10px 16px);
+  }
+  .stop{position:relative;padding:0 0 34px}
+  .stop:last-child{padding-bottom:0}
+  .stop::before{
+    content:"";position:absolute;left:-31px;top:8px;width:16px;height:16px;border-radius:50%;
+    background:var(--paper);border:3.5px solid var(--petrol);
+  }
+  .stop-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:6px}
+  .stop-num{font-family:var(--mono);font-size:13px;color:var(--petrol-dark);font-weight:500}
+  .where{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 9px;border-radius:4px;font-weight:500;
+  }
+  .where.chat{background:#E2F0EF;color:var(--petrol-dark)}
+  .where.code{background:#1E2A35;color:#DCE6EE}
+  .where.repo{background:#FDF4E4;color:#8a5a10}
+  .stop p{color:var(--ink-soft);max-width:600px;margin-top:4px}
+  .why{
+    margin-top:10px;padding:10px 14px;background:var(--card);border:1px solid var(--line);
+    border-left:3px solid var(--amber);border-radius:0 8px 8px 0;max-width:600px;font-size:15.5px;
+  }
+  .why strong{font-weight:600}
+  .skip{
+    margin-top:30px;padding:16px 20px;border:1.5px dashed var(--amber);border-radius:10px;
+    background:#FDF9F0;max-width:640px;font-size:15.5px;
+  }
+
+  .map{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:block;overflow-x:auto}
+  .map table{width:100%;border-collapse:collapse;min-width:640px}
+  .map th{
+    font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    text-align:left;color:var(--ink-soft);padding:12px 16px;border-bottom:2px solid var(--ink);
+    background:#EFF2EE;font-weight:500;
+  }
+  .map td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15.5px}
+  .map tr:last-child td{border-bottom:none}
+  .map td:first-child{font-weight:600;white-space:nowrap}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:720px){.cards{grid-template-columns:1fr}}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;
+    border-top:4px solid var(--petrol);
+  }
+  .card.alt{border-top-color:#1E2A35}
+  .card h3{margin-bottom:2px}
+  .card .file{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-bottom:16px;display:block}
+  .card dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+  .card dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);padding-top:2px}
+  .card dd{color:var(--ink)}
+
+  .rules{display:grid;gap:14px;max-width:680px}
+  .rule{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px;
+    display:grid;gap:6px;font-size:15.5px;
+  }
+  .rule .q{font-weight:600}
+  .rule .a{color:var(--ink-soft)}
+  .rule .a b{color:var(--ink)}
+
+  footer{padding:40px 0 60px;color:var(--ink-soft);font-size:14px}
+  footer .tag{margin-right:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Internal how-to guide</div>
+    <h1>How to plan and execute<br>a project <em>with Claude</em></h1>
+    <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
+    <div class="meta">
+      <span class="tag">v0.2 · July 2026</span>
+      <span class="tag warn">Test version — no Brand Guidelines applied</span>
+    </div>
+  </div>
+</header>
+
+<section id="pipeline">
+  <div class="wrap">
+    <h2>The pipeline: from idea to production</h2>
+    <p class="sec-note">Five stops. Each one happens in a different place — the chip tells you where.</p>
+
+    <div class="rail">
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">STOP 01</span>
+          <h3>Define the idea</h3>
+          <span class="where repo">Your head + notes</span>
+        </div>
+        <p>Write down in 5 minutes: the objective, what's in scope, what's NOT in scope, and the constraints. Without this, everything else gets built on sand.</p>
+      </div>
+
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">STOP 02</span>
+          <h3>Plan</h3>
+          <span class="where chat">Chat (claude.ai)</span>
+        </div>
+        <p>Use the <strong>Chat template</strong> with the most capable model available. Attach every piece of evidence you have. The output is a phased plan: <code>PLAN_X.md</code>.</p>
+        <div class="why"><strong>Why in chat:</strong> planning is cheap; fixing a poorly planned execution is expensive. A planning mistake multiplies into every task built on top of it.</div>
+      </div>
+
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">STOP 03</span>
+          <h3>Verify</h3>
+          <span class="where code">Claude Code</span>
+        </div>
+        <p>Use the <strong>Claude Code template</strong> with a high-effort model and <strong>Plan Mode ON</strong>. Claude reads the real files in your repo and confirms or rejects every assumption in the plan (✅ / ❌ / ⚠️).</p>
+        <div class="why"><strong>Why verify:</strong> chat can't see your files. The discoveries that save projects (hidden repos, sensitive data, stale configs) only show up when the real repo gets read.</div>
+      </div>
+
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">STOP 04</span>
+          <h3>Execute</h3>
+          <span class="where code">Claude Code</span>
+        </div>
+        <p>Task by task, in dependency order. One commit per task, with a verification step before moving to the next. You give the "go" at every risky step.</p>
+      </div>
+
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">STOP 05</span>
+          <h3>QA and dry run</h3>
+          <span class="where code">Claude Code</span>
+        </div>
+        <p>Test everything in a safe environment before touching anything that's already in production. If the dry run fails, it gets fixed here — never in production.</p>
+      </div>
+    </div>
+
+    <div class="skip">
+      <strong>Allowed shortcut:</strong> if the task is tiny (a typo, a banner, a small tweak), skip stops 02 and 03 and go straight to execution. Formal planning for a 10-minute task is bureaucracy, not rigor.
+    </div>
+  </div>
+</section>
+
+<section id="map">
+  <div class="wrap">
+    <h2>Where everything gets documented</h2>
+    <p class="sec-note">Every document has a fixed home. If you don't know where to look for something, this table is the answer.</p>
+    <div class="map">
+      <table>
+        <thead>
+          <tr><th>Document</th><th>Where it lives</th><th>What it's for</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Planning templates</td>
+            <td><code>templates/</code> in the workspace</td>
+            <td>The reusable prompts that kick off any planning session (Chat and Claude Code).</td>
+          </tr>
+          <tr>
+            <td>Plans (<code>PLAN_X.md</code>)</td>
+            <td><code>audit/</code> inside the repo</td>
+            <td>The phased plan for each project. Versioned in Git — it's the decision history.</td>
+          </tr>
+          <tr>
+            <td>Audits (<code>AUDIT_X.md</code>)</td>
+            <td><code>audit/</code> inside the repo</td>
+            <td>What was found when reading the real state before planning or executing.</td>
+          </tr>
+          <tr>
+            <td>How-to guides</td>
+            <td><code>templates/README.md</code> + online version (this page)</td>
+            <td>How to use the templates and the workflow. The online version is what gets shared with the team.</td>
+          </tr>
+          <tr>
+            <td>Permanent context</td>
+            <td>Foundation files at the workspace root</td>
+            <td><code>CLAUDE.md</code>, <code>BRAND_GUIDELINES.md</code>, <code>COMPANY_CONTEXT.md</code> — the rules that apply to everything.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="templates">
+  <div class="wrap">
+    <h2>The two templates, side by side</h2>
+    <p class="sec-note">They are not two versions of the same document — they are two different moments in the pipeline.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Chat template</h3>
+        <span class="file">PLANNING_TEMPLATE_CHAT.md</span>
+        <dl>
+          <dt>When</dt><dd>Stop 02 — to turn basic specs into a solid plan.</dd>
+          <dt>Where</dt><dd>Chat in claude.ai (or inside a Project).</dd>
+          <dt>Model</dt><dd>The most capable model available, with extended thinking on.</dd>
+          <dt>Key rule</dt><dd>The model can't see your files: everything unconfirmed gets tagged <code>[UNVERIFIED]</code>.</dd>
+          <dt>Produces</dt><dd><code>PLAN_X.md</code> + a handoff prompt ready for Claude Code.</dd>
+        </dl>
+      </div>
+      <div class="card alt">
+        <h3>Claude Code template</h3>
+        <span class="file">PLANNING_TEMPLATE_CLAUDE_CODE.md</span>
+        <dl>
+          <dt>When</dt><dd>Stop 03 — to ground the plan in the reality of the repo.</dd>
+          <dt>Where</dt><dd>Claude Code in the Desktop app, opened from the project subfolder.</dd>
+          <dt>Model</dt><dd>High effort, Plan Mode ON (it can't touch files until you approve).</dd>
+          <dt>Key rule</dt><dd>It verifies every <code>[UNVERIFIED]</code> claim against real files before writing the final plan.</dd>
+          <dt>Produces</dt><dd>A verified plan in <code>audit/</code> + task-by-task execution, one commit per task.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <h2>Quick rules</h2>
+    <div class="rules">
+      <div class="rule">
+        <div class="q">Is planning the most important part?</div>
+        <div class="a">Yes, <b>together with verification</b>. Solid plan + verification against real files = a project that ships. Solid plan without verification = a pretty plan that breaks at task 2.</div>
+      </div>
+      <div class="rule">
+        <div class="q">Should everything start inside a claude.ai Project?</div>
+        <div class="a">No. Use a <b>Project</b> when you'll have 3+ chats on the same topic (the context stays loaded). Use a <b>regular chat</b> for one-off planning: the template plus your attached evidence is enough.</div>
+      </div>
+      <div class="rule">
+        <div class="q">Which model for which job?</div>
+        <div class="a"><b>Most capable model:</b> complex planning with lots of evidence. <b>High-effort model:</b> verification and risky execution in Claude Code. <b>Faster models:</b> routine code generation and automation.</div>
+      </div>
+      <div class="rule">
+        <div class="q">When should you NOT plan?</div>
+        <div class="a">Tasks under ~30 minutes with an obvious scope. Going straight to execution isn't skipping the process — it's applying the right-sized process for the task.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="tag">OE Docs</span>
+    <span class="tag warn">Test version — designed without Brand Guidelines. Will be regenerated inside the Brand Guidelines Project for comparison.</span>
+  </div>
+</footer>
+
+</body>
+</html>
