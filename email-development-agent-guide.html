@@ -219,6 +219,35 @@
 
 <section>
   <div class="wrap">
+    <h2>Two ways to run it</h2>
+    <p class="sec-note">Claude Code is the builder — it runs the whole pipeline. A claude.ai Project is an optional companion for authoring and QA reasoning, since it can't run code or read Figma. The same six knowledge files power both.</p>
+    <div class="types">
+      <div class="type">
+        <h3>Claude Code — the builder</h3>
+        <span class="flow">Full pipeline · runs locally</span>
+        <ul>
+          <li>Runs Node, MJML compilation, and the generation scripts.</li>
+          <li>Reads the Figma design through the Dev Mode connection.</li>
+          <li>Writes the production HTML to the project's output folder.</li>
+          <li>The only place a real email actually gets built.</li>
+        </ul>
+      </div>
+      <div class="type dark">
+        <h3>claude.ai Project — the consultant</h3>
+        <span class="flow">Knowledge + QA · no code execution</span>
+        <ul>
+          <li>Upload the six knowledge files as Project knowledge; add short custom instructions pointing to the reading order.</li>
+          <li>Great for drafting MJML by hand, reviewing a pasted HTML against the pre-send checklist, and diagnosing client bugs.</li>
+          <li>Can't run node/MJML or read Figma — those steps stay in Claude Code.</li>
+          <li>Keep each client's brief, template, and scripts out of Project knowledge — attach them per conversation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
     <h2>How a project runs</h2>
     <p class="sec-note">The full 10-step workflow, condensed. Claude drives; you review at the checkpoints.</p>
     <div class="steps">
@@ -268,6 +297,7 @@
       <div class="rule"><span class="dot">03</span><span><b>Force light mode, always.</b> Emails never adapt to dark mode — each client gets its own documented strategy to keep colors intact.</span></div>
       <div class="rule"><span class="dot">04</span><span><b>Explicit backgrounds everywhere.</b> Every content cell declares its own background color — no exceptions, no surprises.</span></div>
       <div class="rule"><span class="dot">05</span><span><b>Rounded buttons need VML.</b> Outlook ignores CSS border-radius; the agent hand-writes the vector markup that makes buttons round there too.</span></div>
+      <div class="rule"><span class="dot">06</span><span><b>Match the fallback to the font's category.</b> A serif brand font falls back to Georgia and Times New Roman — never Arial — or Outlook silently renders a serif design in a sans-serif face.</span></div>
     </div>
   </div>
 </section>
@@ -279,6 +309,10 @@
       <details>
         <summary>Does it work for any brand or client?</summary>
         <p>Yes — that's the design. The agent carries only generic email-development knowledge. Brand rules (colors, fonts, voice, claims) live in each project's own brief, so the same agent serves any client without modification.</p>
+      </details>
+      <details>
+        <summary>Can I use it in claude.ai instead of Claude Code?</summary>
+        <p>As a companion, yes. Upload the six knowledge files to a claude.ai Project and it becomes a strong consultant for authoring MJML and running the pre-send QA checklist. But claude.ai can't run Node, compile MJML, or read Figma — so the actual build stays in Claude Code. Think of the Project as the reviewer and Claude Code as the builder.</p>
       </details>
       <details>
         <summary>What do I need installed?</summary>
@@ -302,7 +336,7 @@
 
 <footer>
   <div class="wrap">
-    Email Development Agent · Guide v1.0 · July 2026 · Built from the agent's own docs
+    Email Development Agent · Guide v1.1 · July 2026 · Built from the agent's own docs
   </div>
 </footer>
 
