@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OE Docs — Guides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&family=Wix+Madefor+Text:wght@400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&family=Wix+Madefor+Text:wght@400..800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#FAFAF7;--ink:#1C2140;--soft:#565C7A;--accent:#0066FF;--line:#DEDEE8;--card:#fff}
+  :root{--bg:#FAFAF7;--ink:#1C2140;--soft:#565C7A;--accent:#0066FF;--line:#DEDEE8;--card:#fff;--mono:'JetBrains Mono',monospace}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--ink);font-family:'Wix Madefor Text',system-ui,sans-serif;font-size:17px;line-height:1.6}
   .wrap{max-width:680px;margin:0 auto;padding:70px 24px}
@@ -20,6 +20,10 @@
   }
   a.doc:hover,a.doc:focus-visible{border-color:var(--accent)}
   a.doc:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  a.doc .doc-label{
+    display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--soft);margin-bottom:6px;
+  }
   a.doc h2{font-family:'Wix Madefor Display',sans-serif;font-weight:700;font-size:18px;color:var(--accent);margin-bottom:4px}
   a.doc p{color:var(--soft);font-size:15px}
   footer{margin-top:50px;color:var(--soft);font-size:13.5px}
@@ -31,16 +35,19 @@
   <p class="lede">Process guides and how-tos, always in their latest version.</p>
 
   <a class="doc" href="planning-kickoff-skill-guide.html">
+    <span class="doc-label">Claude Skill</span>
     <h2>Planning-kickoff: from a loose idea to a solid plan</h2>
     <p>Install the skill once and turn any idea into a solid plan. Generic guide for any Claude account.</p>
   </a>
 
   <a class="doc" href="claude-planning-workflow.html">
+    <span class="doc-label">Planning Workflow</span>
     <h2>Planning Workflow: from idea to production, with Claude</h2>
     <p>The 5-stop pipeline: where things get planned, where they get verified, and where every step is documented.</p>
   </a>
 
   <a class="doc" href="email-development-agent-guide.html">
+    <span class="doc-label">Claude Code Agent</span>
     <h2>Email Development Agent: Figma to production-ready email</h2>
     <p>A portable Claude Code agent that turns Figma designs into production-ready HTML emails, compatible with every major email client.</p>
   </a>
