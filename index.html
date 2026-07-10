@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OE Docs — Guides</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#FAFAF7;--ink:#1C2140;--soft:#565C7A;--accent:#5B4FE9;--line:#DEDEE8;--card:#fff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:17px;line-height:1.6}
+  .wrap{max-width:680px;margin:0 auto;padding:70px 24px}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:34px;letter-spacing:-.01em}
+  .lede{color:var(--soft);margin:10px 0 40px}
+  a.doc{
+    display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:22px 24px;margin-bottom:14px;text-decoration:none;color:var(--ink);
+    transition:border-color .15s;
+  }
+  a.doc:hover,a.doc:focus-visible{border-color:var(--accent)}
+  a.doc:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  a.doc h2{font-family:'Space Grotesk',sans-serif;font-size:18px;color:var(--accent);margin-bottom:4px}
+  a.doc p{color:var(--soft);font-size:15px}
+  footer{margin-top:50px;color:var(--soft);font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>OE Docs</h1>
+  <p class="lede">Process guides and how-tos, always in their latest version.</p>
+
+  <a class="doc" href="planning-kickoff-skill-guide.html">
+    <h2>planning-kickoff skill — How to use it</h2>
+    <p>Install the skill once and turn any idea into a solid plan. Generic guide for any Claude account.</p>
+  </a>
+
+  <a class="doc" href="claude-planning-workflow.html">
+    <h2>Planning workflow with Claude</h2>
+    <p>The 5-stop pipeline: where things get planned, where they get verified, and where every step is documented.</p>
+  </a>
+
+  <a class="doc" href="email-development-agent-guide.html">
+    <h2>Email Development Agent — How to use it</h2>
+    <p>A portable Claude Code agent that turns Figma designs into production-ready HTML emails, compatible with every major email client.</p>
+  </a>
+
+  <footer>OE Docs · Updated July 2026</footer>
+</div>
+</body>
+</html>
