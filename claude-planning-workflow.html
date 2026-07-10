@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>How to Plan and Execute a Project with Claude</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F6F7F4;
-    --ink:#17222C;
-    --ink-soft:#4A5763;
-    --petrol:#0E7C7B;
-    --petrol-dark:#0A5958;
+    --paper:#FAFAF7;
+    --ink:#1C2140;
+    --ink-soft:#565C7A;
+    --petrol:#0066FF;
+    --petrol-dark:#0052CC;
     --amber:#E8A13D;
-    --line:#D8DDD9;
+    --line:#DEDEE8;
     --card:#FFFFFF;
-    --mono:'IBM Plex Mono',monospace;
+    --mono:'JetBrains Mono',monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -24,12 +24,12 @@
   body{
     background:var(--paper);
     color:var(--ink);
-    font-family:'IBM Plex Sans',system-ui,sans-serif;
-    font-size:17px;
+    font-family:'Manrope',system-ui,sans-serif;
+    font-size:17.5px;
     line-height:1.65;
   }
   a{color:var(--petrol-dark)}
-  a:focus-visible,button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--petrol);outline-offset:2px}
   .wrap{max-width:860px;margin:0 auto;padding:0 24px}
 
   header{border-bottom:1px solid var(--line);padding:56px 0 40px}
@@ -39,12 +39,11 @@
   }
   .eyebrow::before{content:"";width:26px;height:2px;background:var(--petrol)}
   h1{
-    font-family:'Archivo',sans-serif;font-weight:800;
-    font-size:clamp(34px,5.5vw,52px);line-height:1.05;letter-spacing:-.015em;
-    font-stretch:95%;
+    font-family:'Manrope',sans-serif;font-weight:700;
+    font-size:clamp(32px,5vw,48px);line-height:1.08;letter-spacing:-.01em;
   }
   h1 em{font-style:normal;color:var(--petrol)}
-  .lede{margin-top:18px;max-width:620px;color:var(--ink-soft);font-size:18px}
+  .lede{margin-top:18px;max-width:620px;color:var(--ink-soft);font-size:18.5px}
   .meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
   .tag{
     font-family:var(--mono);font-size:12px;padding:4px 10px;border:1px solid var(--line);
@@ -52,15 +51,15 @@
   }
   .tag.warn{border-color:var(--amber);color:#8a5a10;background:#FDF4E4}
 
-  section{padding:52px 0;border-bottom:1px solid var(--line)}
+  section{padding:48px 0;border-bottom:1px solid var(--line)}
   h2{
-    font-family:'Archivo',sans-serif;font-weight:750;font-size:26px;letter-spacing:-.01em;
-    margin-bottom:8px;
+    font-family:'Manrope',sans-serif;font-size:25px;letter-spacing:-.01em;
+    margin-bottom:6px;
   }
-  .sec-note{color:var(--ink-soft);margin-bottom:28px;max-width:640px}
-  h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:18px}
+  .sec-note{color:var(--ink-soft);margin-bottom:26px;max-width:640px}
+  h3{font-family:'Manrope',sans-serif;font-size:18px;letter-spacing:-.01em}
   code,.path{
-    font-family:var(--mono);font-size:.86em;background:#EAEEEA;border:1px solid var(--line);
+    font-family:var(--mono);font-size:.86em;background:#F0F4FF;border:1px solid var(--line);
     border-radius:5px;padding:1px 6px;white-space:nowrap
   }
 
@@ -81,8 +80,8 @@
     font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
     padding:3px 9px;border-radius:4px;font-weight:500;
   }
-  .where.chat{background:#E2F0EF;color:var(--petrol-dark)}
-  .where.code{background:#1E2A35;color:#DCE6EE}
+  .where.chat{background:#E6F0FF;color:var(--petrol-dark)}
+  .where.code{background:#1C2140;color:#DCE6EE}
   .where.repo{background:#FDF4E4;color:#8a5a10}
   .stop p{color:var(--ink-soft);max-width:600px;margin-top:4px}
   .why{
@@ -100,7 +99,7 @@
   .map th{
     font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
     text-align:left;color:var(--ink-soft);padding:12px 16px;border-bottom:2px solid var(--ink);
-    background:#EFF2EE;font-weight:500;
+    background:#F3F3EF;font-weight:500;
   }
   .map td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15.5px}
   .map tr:last-child td{border-bottom:none}
@@ -112,7 +111,7 @@
     background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;
     border-top:4px solid var(--petrol);
   }
-  .card.alt{border-top-color:#1E2A35}
+  .card.alt{border-top-color:#1C2140}
   .card h3{margin-bottom:2px}
   .card .file{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-bottom:16px;display:block}
   .card dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
@@ -128,7 +127,7 @@
   .rule .a{color:var(--ink-soft)}
   .rule .a b{color:var(--ink)}
 
-  footer{padding:40px 0 60px;color:var(--ink-soft);font-size:14px}
+  footer{padding:36px 0 60px;color:var(--ink-soft);font-size:14px}
   footer .tag{margin-right:6px}
 </style>
 </head>
