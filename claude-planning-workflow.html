@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How to Plan and Execute a Project with Claude</title>
+<title>Planning Workflow — How to Plan and Execute a Project with Claude</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&family=Wix+Madefor+Text:wght@400..800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -13,6 +13,7 @@
     --ink-soft:#565C7A;
     --petrol:#0066FF;
     --petrol-dark:#0052CC;
+    --petrol-soft:#E6F0FF;
     --amber:#E8A13D;
     --line:#DEDEE8;
     --card:#FFFFFF;
@@ -39,11 +40,11 @@
   .back:hover{color:var(--petrol-dark)}
 
   header{border-bottom:1px solid var(--line);padding:56px 0 40px}
-  .eyebrow{
-    font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--petrol-dark);display:flex;gap:10px;align-items:center;margin-bottom:18px;
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--petrol-dark);
+    background:var(--petrol-soft);padding:6px 12px;border-radius:999px;margin-bottom:20px;
   }
-  .eyebrow::before{content:"";width:26px;height:2px;background:var(--petrol)}
   h1{
     font-family:'Wix Madefor Display',sans-serif;font-weight:700;
     font-size:clamp(32px,5vw,48px);line-height:1.08;letter-spacing:-.01em;
@@ -150,8 +151,8 @@
 <header>
   <div class="wrap">
     <a class="back" href="index.html">← All guides</a>
-    <div class="eyebrow">Internal how-to guide</div>
-    <h1>How to plan and execute<br>a project <em>with Claude</em></h1>
+    <div class="kicker">How-to guide · Planning Workflow</div>
+    <h1>Planning Workflow:<br>from idea <em>to production, with Claude</em></h1>
     <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
     <div class="meta">
       <span class="tag">v0.3 · July 2026</span>
@@ -178,7 +179,7 @@
         <div class="stop-head">
           <span class="stop-num">STOP 02</span>
           <h3>Plan</h3>
-          <span class="where chat">Chat (claude.ai)</span>
+          <span class="where chat">Chat (Claude app)</span>
         </div>
         <p>Say "let's plan X" and attach every piece of evidence you have — the <strong>planning-kickoff skill</strong> loads the right template automatically. No GitHub access needed here: it's a regular chat. The output is a phased plan you download: <code>PLAN_X.md</code>.</p>
         <div class="why"><strong>Why in chat:</strong> planning is cheap; fixing a poorly planned execution is expensive. A planning mistake multiplies into every task built on top of it.</div>
@@ -231,7 +232,7 @@
         <tbody>
           <tr>
             <td>Planning templates</td>
-            <td><code>custom-skills/planning-kickoff/</code> in the repo — also installed as the <code>planning-kickoff</code> Claude skill</td>
+            <td>Installed as the <code>planning-kickoff</code> Claude skill — not yet mirrored to a repo</td>
             <td>The reusable prompts that kick off any planning session. As an installed skill, they load automatically — nobody opens or pastes them by hand.</td>
           </tr>
           <tr>
@@ -278,7 +279,7 @@
         <span class="file">PLANNING_TEMPLATE_CHAT.md</span>
         <dl>
           <dt>When</dt><dd>Stop 02 — to turn basic specs into a solid plan.</dd>
-          <dt>Where</dt><dd>Chat in claude.ai (or inside a Project). Loads automatically once the skill is installed.</dd>
+          <dt>Where</dt><dd>Chat in the Claude app (or inside a Project). Loads automatically once the skill is installed.</dd>
           <dt>Model</dt><dd>The most capable model available, with extended thinking on.</dd>
           <dt>Key rule</dt><dd>The model can't see your files: everything unconfirmed gets tagged <code>[UNVERIFIED]</code>.</dd>
           <dt>Produces</dt><dd><code>PLAN_X.md</code> + a handoff prompt ready for Claude Code.</dd>
@@ -309,7 +310,7 @@
         <div class="a">Yes, <b>together with verification</b>. Solid plan + verification against real files = a project that ships. Solid plan without verification = a pretty plan that breaks at task 2.</div>
       </div>
       <div class="rule">
-        <div class="q">Should everything start inside a claude.ai Project?</div>
+        <div class="q">Should everything start inside a Project in the Claude app?</div>
         <div class="a">No. Use a <b>Project</b> when you'll have 3+ chats on the same topic (the context stays loaded). Use a <b>regular chat</b> for one-off planning: the skill plus your attached evidence is enough.</div>
       </div>
       <div class="rule">
