@@ -147,7 +147,7 @@
 <section>
   <div class="wrap">
     <h2>Installation <span class="once">One time only</span></h2>
-    <p class="sec-note">Download the skill <code>planning-kickoff.skill</code></p>
+    <p class="sec-note">Download the skill <a href="#" id="download-skill"><code>planning-kickoff.skill</code></a></p>
     <div class="steps">
       <div class="step">
         <h3>Upload the skill file</h3>
@@ -279,6 +279,42 @@
     Planning-kickoff · Generic guide v1.1 · July 2026 · Made with Claude
   </div>
 </footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+document.getElementById('download-skill').addEventListener('click', async function(e){
+  e.preventDefault();
+  var link = this;
+  var originalHTML = link.innerHTML;
+  link.innerHTML = '<code>Preparing…</code>';
+  try {
+    var base = 'downloads/planning-kickoff/';
+    var files = {
+      'planning-kickoff/SKILL.md': base + 'SKILL.md',
+      'planning-kickoff/references/PLANNING_TEMPLATE_CHAT.md': base + 'references/PLANNING_TEMPLATE_CHAT.md',
+      'planning-kickoff/references/PLANNING_TEMPLATE_CLAUDE_CODE.md': base + 'references/PLANNING_TEMPLATE_CLAUDE_CODE.md'
+    };
+    var zip = new JSZip();
+    for (var zipPath in files) {
+      var res = await fetch(files[zipPath]);
+      var text = await res.text();
+      zip.file(zipPath, text);
+    }
+    var blob = await zip.generateAsync({type:'blob'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'planning-kickoff.skill';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch(err) {
+    alert('Could not build the download. Please try again.');
+    console.error(err);
+  } finally {
+    link.innerHTML = originalHTML;
+  }
+});
+</script>
 
 </body>
 </html>
