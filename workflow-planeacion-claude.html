@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow de Planeación con Claude — Instructivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F7F4;
+    --ink:#17222C;
+    --ink-soft:#4A5763;
+    --petrol:#0E7C7B;
+    --petrol-dark:#0A5958;
+    --amber:#E8A13D;
+    --line:#D8DDD9;
+    --card:#FFFFFF;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{animation:none!important;transition:none!important}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.65;
+  }
+  a{color:var(--petrol-dark)}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{border-bottom:1px solid var(--line);padding:56px 0 40px}
+  .eyebrow{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--petrol-dark);display:flex;gap:10px;align-items:center;margin-bottom:18px;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--petrol)}
+  h1{
+    font-family:'Archivo',sans-serif;font-weight:800;
+    font-size:clamp(34px,5.5vw,52px);line-height:1.05;letter-spacing:-.015em;
+    font-stretch:95%;
+  }
+  h1 em{font-style:normal;color:var(--petrol)}
+  .lede{margin-top:18px;max-width:620px;color:var(--ink-soft);font-size:18px}
+  .meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{
+    font-family:var(--mono);font-size:12px;padding:4px 10px;border:1px solid var(--line);
+    border-radius:999px;background:var(--card);color:var(--ink-soft)
+  }
+  .tag.warn{border-color:var(--amber);color:#8a5a10;background:#FDF4E4}
+
+  /* ---------- sections ---------- */
+  section{padding:52px 0;border-bottom:1px solid var(--line)}
+  h2{
+    font-family:'Archivo',sans-serif;font-weight:750;font-size:26px;letter-spacing:-.01em;
+    margin-bottom:8px;
+  }
+  .sec-note{color:var(--ink-soft);margin-bottom:28px;max-width:640px}
+  h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:18px}
+  code,.path{
+    font-family:var(--mono);font-size:.86em;background:#EAEEEA;border:1px solid var(--line);
+    border-radius:5px;padding:1px 6px;white-space:nowrap
+  }
+
+  /* ---------- pipeline rail (signature) ---------- */
+  .rail{position:relative;padding-left:34px}
+  .rail::before{
+    content:"";position:absolute;left:10px;top:14px;bottom:14px;width:2px;
+    background:repeating-linear-gradient(to bottom,var(--petrol) 0 10px,transparent 10px 16px);
+  }
+  .stop{position:relative;padding:0 0 34px}
+  .stop:last-child{padding-bottom:0}
+  .stop::before{
+    content:"";position:absolute;left:-31px;top:8px;width:16px;height:16px;border-radius:50%;
+    background:var(--paper);border:3.5px solid var(--petrol);
+  }
+  .stop.optional::before{border-color:var(--amber)}
+  .stop-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:6px}
+  .stop-num{font-family:var(--mono);font-size:13px;color:var(--petrol-dark);font-weight:500}
+  .where{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 9px;border-radius:4px;font-weight:500;
+  }
+  .where.chat{background:#E2F0EF;color:var(--petrol-dark)}
+  .where.code{background:#1E2A35;color:#DCE6EE}
+  .where.repo{background:#FDF4E4;color:#8a5a10}
+  .stop p{color:var(--ink-soft);max-width:600px;margin-top:4px}
+  .why{
+    margin-top:10px;padding:10px 14px;background:var(--card);border:1px solid var(--line);
+    border-left:3px solid var(--amber);border-radius:0 8px 8px 0;max-width:600px;font-size:15.5px;
+  }
+  .why strong{font-weight:600}
+  .skip{
+    margin-top:30px;padding:16px 20px;border:1.5px dashed var(--amber);border-radius:10px;
+    background:#FDF9F0;max-width:640px;font-size:15.5px;
+  }
+
+  /* ---------- doc map table ---------- */
+  .map{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:block;overflow-x:auto}
+  .map table{width:100%;border-collapse:collapse;min-width:640px}
+  .map th{
+    font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    text-align:left;color:var(--ink-soft);padding:12px 16px;border-bottom:2px solid var(--ink);
+    background:#EFF2EE;font-weight:500;
+  }
+  .map td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15.5px}
+  .map tr:last-child td{border-bottom:none}
+  .map td:first-child{font-weight:600;white-space:nowrap}
+
+  /* ---------- template cards ---------- */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:720px){.cards{grid-template-columns:1fr}}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;
+    border-top:4px solid var(--petrol);
+  }
+  .card.alt{border-top-color:#1E2A35}
+  .card h3{margin-bottom:2px}
+  .card .file{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-bottom:16px;display:block}
+  .card dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+  .card dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);padding-top:2px}
+  .card dd{color:var(--ink)}
+
+  /* ---------- rules ---------- */
+  .rules{display:grid;gap:14px;max-width:680px}
+  .rule{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px;
+    display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;font-size:15.5px;
+  }
+  .rule .q{font-weight:600;grid-column:1/-1}
+  .rule .a{grid-column:1/-1;color:var(--ink-soft)}
+  .rule .a b{color:var(--ink)}
+
+  footer{padding:40px 0 60px;color:var(--ink-soft);font-size:14px}
+  footer .tag{margin-right:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">OE Claude Lab · Instructivo interno</div>
+    <h1>Cómo planear y ejecutar<br>un proyecto <em>con Claude</em></h1>
+    <p class="lede">El proceso estándar del Lab: dónde empieza una idea, dónde se planea, dónde se verifica y dónde queda documentado cada paso.</p>
+    <div class="meta">
+      <span class="tag">v0.1 · Julio 2026</span>
+      <span class="tag">Audiencia: equipo Open English</span>
+      <span class="tag warn">Prueba — sin Brand Guidelines aplicadas</span>
+    </div>
+  </div>
+</header>
+
+<section id="pipeline">
+  <div class="wrap">
+    <h2>El pipeline: de idea a producción</h2>
+    <p class="sec-note">Cinco paradas. Cada una ocurre en un lugar distinto — el chip indica dónde.</p>
+
+    <div class="rail">
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">PARADA 01</span>
+          <h3>Definir la idea</h3>
+          <span class="where repo">Tu cabeza + notas</span>
+        </div>
+        <p>Escribe en 5 minutos: objetivo, qué entra en el alcance, qué NO entra, y restricciones. Sin esto, todo lo demás se construye sobre arena.</p>
+      </div>
+
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">PARADA 02</span>
+          <h3>Planear</h3>
+          <span class="where chat">Chat (claude.ai)</span>
+        </div>
+        <p>Usa el <strong>Template Chat</strong> con Fable 5 (o Opus para ahorrar créditos). Pega toda la evidencia que tengas. El resultado es un plan por fases: <code>PLAN_X.md</code>.</p>
+        <div class="why"><strong>Por qué en chat:</strong> planear es barato, corregir una ejecución mal planeada es caro. Un error de plan se multiplica en cada tarea que se construye encima.</div>
+      </div>
+
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">PARADA 03</span>
+          <h3>Verificar</h3>
+          <span class="where code">Claude Code</span>
+        </div>
+        <p>Usa el <strong>Template Claude Code</strong> con Opus effort High y <strong>Plan Mode ON</strong>. Opus lee los archivos reales del repo y confirma o tumba cada supuesto del plan (✅ / ❌ / ⚠️).</p>
+        <div class="why"><strong>Por qué verificar:</strong> el chat no ve tus archivos. Los hallazgos que salvan proyectos (repos ocultos, datos sensibles, configs viejas) solo aparecen leyendo el repo real.</div>
+      </div>
+
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">PARADA 04</span>
+          <h3>Ejecutar</h3>
+          <span class="where code">Claude Code</span>
+        </div>
+        <p>Tarea por tarea, en orden de dependencia. Un commit por tarea, con verificación antes de pasar a la siguiente. Tú das el "go" en cada paso riesgoso.</p>
+      </div>
+
+      <div class="stop">
+        <div class="stop-head">
+          <span class="stop-num">PARADA 05</span>
+          <h3>QA y dry run</h3>
+          <span class="where code">Claude Code</span>
+        </div>
+        <p>Probar en seco antes de tocar cualquier cosa que ya esté en producción. Si el dry run falla, se corrige aquí — nunca en producción.</p>
+      </div>
+    </div>
+
+    <div class="skip">
+      <strong>Atajo permitido:</strong> si la tarea es chiquita (un typo, un banner, un ajuste puntual), sáltate las paradas 02 y 03 y ve directo a ejecutar. Planeación formal para tareas de 10 minutos es burocracia, no rigor.
+    </div>
+  </div>
+</section>
+
+<section id="mapa">
+  <div class="wrap">
+    <h2>Dónde queda documentado cada cosa</h2>
+    <p class="sec-note">Cada documento tiene una casa fija. Si no sabes dónde buscar algo, esta tabla es la respuesta.</p>
+    <div class="map">
+      <table>
+        <thead>
+          <tr><th>Documento</th><th>Dónde vive</th><th>Para qué sirve</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Templates de planeación</td>
+            <td><code>OE Claude Lab/templates/</code></td>
+            <td>Los prompts reutilizables para arrancar cualquier planeación (Chat y Claude Code).</td>
+          </tr>
+          <tr>
+            <td>Planes (<code>PLAN_X.md</code>)</td>
+            <td><code>audit/</code> dentro del repo del Lab</td>
+            <td>El plan por fases de cada proyecto. Queda versionado en Git — es el historial de decisiones.</td>
+          </tr>
+          <tr>
+            <td>Auditorías (<code>AUDIT_X.md</code>)</td>
+            <td><code>audit/</code> dentro del repo del Lab</td>
+            <td>Lo que se encontró al leer el estado real antes de planear o ejecutar.</td>
+          </tr>
+          <tr>
+            <td>Instructivos de uso</td>
+            <td><code>templates/README.md</code> + versión online (esta página)</td>
+            <td>Cómo usar los templates y el workflow. La versión online se comparte con el equipo.</td>
+          </tr>
+          <tr>
+            <td>Contexto permanente</td>
+            <td>Foundation files en el root del Lab</td>
+            <td><code>CLAUDE.md</code>, <code>BRAND_GUIDELINES.md</code>, <code>COMPANY_CONTEXT.md</code> — las reglas que aplican a todo.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="templates">
+  <div class="wrap">
+    <h2>Los dos templates, lado a lado</h2>
+    <p class="sec-note">No son dos versiones del mismo documento: son dos momentos distintos del pipeline.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Template Chat</h3>
+        <span class="file">PLANNING_TEMPLATE_CHAT.md</span>
+        <dl>
+          <dt>Cuándo</dt><dd>Parada 02 — para convertir specs básicas en un plan sólido.</dd>
+          <dt>Dónde</dt><dd>Chat en claude.ai (o dentro de un Project).</dd>
+          <dt>Modelo</dt><dd>Fable 5 con extended thinking. Opción económica: Opus, mismo template.</dd>
+          <dt>Clave</dt><dd>El modelo no ve tus archivos: todo lo no confirmado queda marcado <code>[UNVERIFIED]</code>.</dd>
+          <dt>Produce</dt><dd><code>PLAN_X.md</code> + un handoff prompt listo para Claude Code.</dd>
+        </dl>
+      </div>
+      <div class="card alt">
+        <h3>Template Claude Code</h3>
+        <span class="file">PLANNING_TEMPLATE_CLAUDE_CODE.md</span>
+        <dl>
+          <dt>Cuándo</dt><dd>Parada 03 — para aterrizar el plan en la realidad del repo.</dd>
+          <dt>Dónde</dt><dd>Claude Code en la Desktop app, abierto desde el subfolder del proyecto.</dd>
+          <dt>Modelo</dt><dd>Opus, effort High, Plan Mode ON (no puede tocar archivos hasta que apruebes).</dd>
+          <dt>Clave</dt><dd>Verifica cada <code>[UNVERIFIED]</code> contra los archivos reales antes de escribir el plan final.</dd>
+          <dt>Produce</dt><dd>Plan verificado en <code>audit/</code> + ejecución tarea por tarea, un commit por tarea.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reglas">
+  <div class="wrap">
+    <h2>Reglas rápidas</h2>
+    <div class="rules">
+      <div class="rule">
+        <div class="q">¿La planeación es la parte más importante?</div>
+        <div class="a">Sí, <b>junto con la verificación</b>. Plan sólido + verificación contra archivos reales = proyecto que sale. Plan sólido sin verificar = plan bonito que se rompe en la tarea 2.</div>
+      </div>
+      <div class="rule">
+        <div class="q">¿Todo debe empezar en un Project de claude.ai?</div>
+        <div class="a">No. <b>Project</b> cuando vas a tener 3+ chats sobre el mismo tema (el contexto queda cargado siempre). <b>Chat normal</b> para planeaciones puntuales: template + evidencia pegada es suficiente.</div>
+      </div>
+      <div class="rule">
+        <div class="q">¿Qué modelo uso para cada cosa?</div>
+        <div class="a"><b>Fable 5:</b> planeaciones complejas con mucha evidencia. <b>Opus:</b> planeación económica en chat, y verificación/ejecución en Claude Code (effort High). <b>Sonnet:</b> generación de código y automatización rutinaria.</div>
+      </div>
+      <div class="rule">
+        <div class="q">¿Cuándo NO planear?</div>
+        <div class="a">Tareas de menos de ~30 minutos con alcance obvio. Ir directo a ejecutar no es saltarse el proceso: es aplicar el proceso correcto para el tamaño de la tarea.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="tag">OE Claude Lab</span>
+    <span class="tag warn">Versión de prueba — diseño sin Brand Guidelines. Se regenerará con el Project "OE Brand Guidelines" para comparar.</span>
+  </div>
+</footer>
+
+</body>
+</html>
