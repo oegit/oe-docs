@@ -32,6 +32,12 @@
   a:focus-visible,button:focus-visible{outline:3px solid var(--petrol);outline-offset:2px}
   .wrap{max-width:860px;margin:0 auto;padding:0 24px}
 
+  .back{
+    display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12.5px;
+    color:var(--ink-soft);text-decoration:none;margin-bottom:22px;
+  }
+  .back:hover{color:var(--petrol-dark)}
+
   header{border-bottom:1px solid var(--line);padding:56px 0 40px}
   .eyebrow{
     font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
@@ -49,7 +55,6 @@
     font-family:var(--mono);font-size:12px;padding:4px 10px;border:1px solid var(--line);
     border-radius:999px;background:var(--card);color:var(--ink-soft)
   }
-  .tag.warn{border-color:var(--amber);color:#8a5a10;background:#FDF4E4}
 
   section{padding:48px 0;border-bottom:1px solid var(--line)}
   h2{
@@ -104,6 +109,8 @@
   .map td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15.5px}
   .map tr:last-child td{border-bottom:none}
   .map td:first-child{font-weight:600;white-space:nowrap}
+  .map-note{margin-top:12px;padding:12px 16px;background:#F0F4FF;border-radius:8px;font-size:14.5px;color:var(--ink-soft);max-width:680px}
+  .map-note b{color:var(--ink)}
 
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   @media(max-width:720px){.cards{grid-template-columns:1fr}}
@@ -117,6 +124,7 @@
   .card dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
   .card dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);padding-top:2px}
   .card dd{color:var(--ink)}
+  .card-note{margin-top:18px;font-size:14.5px;color:var(--ink-soft);max-width:680px}
 
   .rules{display:grid;gap:14px;max-width:680px}
   .rule{
@@ -126,21 +134,27 @@
   .rule .q{font-weight:600}
   .rule .a{color:var(--ink-soft)}
   .rule .a b{color:var(--ink)}
+  .rule .a ul{margin:6px 0 0 18px}
+  .rule .stale{margin-top:8px;font-size:13.5px;font-style:italic}
+
+  .modeltable{width:100%;border-collapse:collapse;margin-top:8px;font-size:14.5px}
+  .modeltable th{text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+  .modeltable td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  .modeltable tr:last-child td{border-bottom:none}
 
   footer{padding:36px 0 60px;color:var(--ink-soft);font-size:14px}
-  footer .tag{margin-right:6px}
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap">
+    <a class="back" href="index.html">← All guides</a>
     <div class="eyebrow">Internal how-to guide</div>
     <h1>How to plan and execute<br>a project <em>with Claude</em></h1>
     <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
     <div class="meta">
-      <span class="tag">v0.2 · July 2026</span>
-      <span class="tag warn">Test version — no Brand Guidelines applied</span>
+      <span class="tag">v0.3 · July 2026</span>
     </div>
   </div>
 </header>
@@ -166,7 +180,7 @@
           <h3>Plan</h3>
           <span class="where chat">Chat (claude.ai)</span>
         </div>
-        <p>Use the <strong>Chat template</strong> with the most capable model available. Attach every piece of evidence you have. The output is a phased plan: <code>PLAN_X.md</code>.</p>
+        <p>Say "let's plan X" and attach every piece of evidence you have — the <strong>planning-kickoff skill</strong> loads the right template automatically. No GitHub access needed here: it's a regular chat. The output is a phased plan you download: <code>PLAN_X.md</code>.</p>
         <div class="why"><strong>Why in chat:</strong> planning is cheap; fixing a poorly planned execution is expensive. A planning mistake multiplies into every task built on top of it.</div>
       </div>
 
@@ -176,7 +190,7 @@
           <h3>Verify</h3>
           <span class="where code">Claude Code</span>
         </div>
-        <p>Use the <strong>Claude Code template</strong> with a high-effort model and <strong>Plan Mode ON</strong>. Claude reads the real files in your repo and confirms or rejects every assumption in the plan (✅ / ❌ / ⚠️).</p>
+        <p>This is the first stop that touches the real repo. Use the <strong>Claude Code template</strong> with a high-effort model and <strong>Plan Mode ON</strong>. Claude reads the real files and confirms or rejects every assumption in the plan (✅ / ❌ / ⚠️), then the plan lands in <code>audit/</code>.</p>
         <div class="why"><strong>Why verify:</strong> chat can't see your files. The discoveries that save projects (hidden repos, sensitive data, stale configs) only show up when the real repo gets read.</div>
       </div>
 
@@ -217,8 +231,8 @@
         <tbody>
           <tr>
             <td>Planning templates</td>
-            <td><code>templates/</code> in the workspace</td>
-            <td>The reusable prompts that kick off any planning session (Chat and Claude Code).</td>
+            <td><code>custom-skills/planning-kickoff/</code> in the repo — also installed as the <code>planning-kickoff</code> Claude skill</td>
+            <td>The reusable prompts that kick off any planning session. As an installed skill, they load automatically — nobody opens or pastes them by hand.</td>
           </tr>
           <tr>
             <td>Plans (<code>PLAN_X.md</code>)</td>
@@ -232,16 +246,24 @@
           </tr>
           <tr>
             <td>How-to guides</td>
-            <td><code>templates/README.md</code> + online version (this page)</td>
-            <td>How to use the templates and the workflow. The online version is what gets shared with the team.</td>
+            <td>Online, this site (oe-docs)</td>
+            <td>How to use the skill and the workflow. This is the version that gets shared with the team.</td>
           </tr>
           <tr>
-            <td>Permanent context</td>
+            <td>Foundational context</td>
             <td>Foundation files at the workspace root</td>
-            <td><code>CLAUDE.md</code>, <code>BRAND_GUIDELINES.md</code>, <code>COMPANY_CONTEXT.md</code> — the rules that apply to everything.</td>
+            <td><code>CLAUDE.md</code>, <code>BRAND_GUIDELINES.md</code>, <code>COMPANY_CONTEXT.md</code>, <code>PROJECT_STRUCTURE.md</code>, <code>PROMPTING_STANDARDS.md</code> — rules that apply to every project and agent.</td>
+          </tr>
+          <tr>
+            <td>Project-specific context</td>
+            <td>Each project/agent's own folder</td>
+            <td>Rules and identity that only apply there — e.g. the email agent's <code>OUTLOOK_RULES.md</code>, or a project's own brief. Never duplicated into the foundation files.</td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="map-note">
+      <b>Only Stop 03 onward needs repo access.</b> Stop 02 (Plan) is a regular chat — evidence you attach plus the skill is enough. Repo access only matters once someone verifies or executes.
     </div>
   </div>
 </section>
@@ -249,14 +271,14 @@
 <section id="templates">
   <div class="wrap">
     <h2>The two templates, side by side</h2>
-    <p class="sec-note">They are not two versions of the same document — they are two different moments in the pipeline.</p>
+    <p class="sec-note">They are not two versions of the same document — they are two different moments in the pipeline. Both now ship inside the <code>planning-kickoff</code> skill, so you don't paste them manually anymore.</p>
     <div class="cards">
       <div class="card">
         <h3>Chat template</h3>
         <span class="file">PLANNING_TEMPLATE_CHAT.md</span>
         <dl>
           <dt>When</dt><dd>Stop 02 — to turn basic specs into a solid plan.</dd>
-          <dt>Where</dt><dd>Chat in claude.ai (or inside a Project).</dd>
+          <dt>Where</dt><dd>Chat in claude.ai (or inside a Project). Loads automatically once the skill is installed.</dd>
           <dt>Model</dt><dd>The most capable model available, with extended thinking on.</dd>
           <dt>Key rule</dt><dd>The model can't see your files: everything unconfirmed gets tagged <code>[UNVERIFIED]</code>.</dd>
           <dt>Produces</dt><dd><code>PLAN_X.md</code> + a handoff prompt ready for Claude Code.</dd>
@@ -274,6 +296,7 @@
         </dl>
       </div>
     </div>
+    <p class="card-note">Trigger: just say "let's plan X", "help me plan X", or "new project: X" in any chat with the skill installed — see the <a href="planning-kickoff-skill-guide.html">planning-kickoff skill guide</a> for the full install + trigger flow.</p>
   </div>
 </section>
 
@@ -287,11 +310,22 @@
       </div>
       <div class="rule">
         <div class="q">Should everything start inside a claude.ai Project?</div>
-        <div class="a">No. Use a <b>Project</b> when you'll have 3+ chats on the same topic (the context stays loaded). Use a <b>regular chat</b> for one-off planning: the template plus your attached evidence is enough.</div>
+        <div class="a">No. Use a <b>Project</b> when you'll have 3+ chats on the same topic (the context stays loaded). Use a <b>regular chat</b> for one-off planning: the skill plus your attached evidence is enough.</div>
       </div>
       <div class="rule">
         <div class="q">Which model for which job?</div>
-        <div class="a"><b>Most capable model:</b> complex planning with lots of evidence. <b>High-effort model:</b> verification and risky execution in Claude Code. <b>Faster models:</b> routine code generation and automation.</div>
+        <div class="a">
+          <b>The axis is risk + ambiguity, not "planning vs. execution."</b>
+          <table class="modeltable">
+            <tr><th>Model</th><th>Effort</th><th>Use it for</th></tr>
+            <tr><td>Claude Fable 5</td><td>—</td><td>Deciding, planning, audits — deep analysis with lots of evidence</td></tr>
+            <tr><td>Claude Opus 4.8</td><td>High</td><td>Risky execution: production, new features, rewrites</td></tr>
+            <tr><td>Claude Sonnet 5</td><td>Max</td><td>Routine, well-specced code generation</td></tr>
+            <tr><td>Claude Sonnet 5</td><td>Low–Medium</td><td>Git ops and other automation</td></tr>
+            <tr><td>Claude Haiku 4.5</td><td>Low</td><td>Mechanical, repetitive tasks</td></tr>
+          </table>
+          <div class="stale">Rough production mix: ~70% Haiku, 20% Sonnet, 8% Opus, 2% Fable. Model names and lineups change — if this looks stale, just ask Claude to refresh it.</div>
+        </div>
       </div>
       <div class="rule">
         <div class="q">When should you NOT plan?</div>
@@ -304,7 +338,6 @@
 <footer>
   <div class="wrap">
     <span class="tag">OE Docs</span>
-    <span class="tag warn">Test version — designed without Brand Guidelines. Will be regenerated inside the Brand Guidelines Project for comparison.</span>
   </div>
 </footer>
 
