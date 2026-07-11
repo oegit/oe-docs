@@ -154,6 +154,22 @@
     border-radius:8px;padding:11px 15px;margin:10px 0;overflow-x:auto;white-space:pre;
   }
   .step p+p{margin-top:7px}
+  .setup{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 24px;max-width:680px;display:grid;gap:20px;margin-bottom:8px;
+  }
+  @media(min-width:640px){.setup{grid-template-columns:1fr 1fr}}
+  .setup h3{font-size:16px;margin-bottom:6px}
+  .setup p{color:var(--ink-soft);font-size:15px}
+  .setup p+p{margin-top:6px}
+  .dl-btn{
+    display:inline-block;background:var(--blue);color:#fff;text-decoration:none;
+    font-family:'Wix Madefor Display',sans-serif;font-weight:700;font-size:15px;
+    padding:10px 18px;border-radius:8px;margin:10px 0 8px;
+  }
+  .dl-btn:hover{background:var(--blue-deep)}
+  .dl-sub{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+
   .tip{
     margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);
     font-size:14px;color:var(--ink-soft);
@@ -185,7 +201,22 @@
 <section id="quickstart">
   <div class="wrap">
     <h2>Quickstart: run a project end to end</h2>
-    <p class="sec-note">Everything you need to build an email, start to finish — every command, every prompt, and which model to run at each step. Everything happens in the Claude Desktop App. The concepts behind each step are explained in the sections below.</p>
+    <p class="sec-note">Everything you need to build an email, start to finish — from downloading the agent to the final deliverable, with every command, every prompt, and which model to run at each step. Everything happens in the Claude Desktop App. The concepts behind each step are explained in the sections below.</p>
+
+    <h3 class="qs-sub">Before you start</h3>
+    <div class="setup">
+      <div>
+        <h3>What you need</h3>
+        <p>The Claude Desktop App (with the Code tab), Node.js, and a Litmus account for QA.</p>
+        <p>Figma Desktop — only if you're building from a Figma design.</p>
+      </div>
+      <div>
+        <h3>Get the agent</h3>
+        <p>The agent is a folder of text files. Download it and unzip it anywhere on your machine. Already have the folder? Skip ahead.</p>
+        <a class="dl-btn" href="https://github.com/oegit/agent-email-development/archive/refs/heads/main.zip">Download the agent (ZIP)</a>
+        <p class="dl-sub">or browse the repo: <a href="https://github.com/oegit/agent-email-development">github.com/oegit/agent-email-development</a></p>
+      </div>
+    </div>
 
     <h3 class="qs-sub">Folder structure</h3>
     <pre class="tree">agent-email-development/
@@ -208,26 +239,46 @@
     <div class="steps">
       <div class="step">
         <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>—</span><span class="chip"><i>Effort</i>—</span></div>
-        <h3>Install dependencies</h3>
-        <p>Open the Claude Desktop App, go to the Code tab, and point it to <code>agent-email-development/</code>. Navigate to your project folder:</p>
-        <span class="cmd">cd projects/[project-name]</span>
-        <p>In the terminal panel, run:</p>
-        <span class="cmd">npm install mjml googleapis</span>
-        <p class="tip">Run only once per project. Skip if already installed.</p>
+        <h3>Open the agent in Claude Code</h3>
+        <p>Open the Claude Desktop App, go to the Code tab, and open the <code>agent-email-development/</code> folder from wherever you saved it.</p>
+        <p class="tip">The folder can live anywhere — the agent is fully self-contained. The ZIP unzips as <code>agent-email-development-main/</code>; rename it if you like, the name doesn't matter.</p>
       </div>
 
       <div class="step">
         <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default</span></div>
         <h3>Start the agent</h3>
-        <p>With the Code tab open at <code>agent-email-development/</code>, paste this prompt:</p>
-        <div class="prompt">You are the Email Developer Agent. Read your CLAUDE.md at the root of this folder, plus OUTLOOK_RULES.md, DARK_MODE_RULES.md, RESPONSIVE_RULES.md, FIGMA_TO_EMAIL_WORKFLOW.md, and PRE_SEND_QA.md. Then read the project CLAUDE.md at projects/[project-name]/. When done, summarize what you understood and confirm you are ready.</div>
-        <p>Replace <code>[project-name]</code> with your actual project folder name.</p>
+        <p>With the Code tab open at the agent folder, paste this prompt:</p>
+        <div class="prompt">You are the Email Developer Agent. Read your CLAUDE.md at the root of this folder, plus OUTLOOK_RULES.md, DARK_MODE_RULES.md, RESPONSIVE_RULES.md, FIGMA_TO_EMAIL_WORKFLOW.md, and PRE_SEND_QA.md. When done, summarize what you understood and confirm you are ready.</div>
         <p class="tip">Verify the summary is correct before continuing. If something is wrong, correct it here.</p>
       </div>
 
       <div class="step">
         <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default</span></div>
+        <h3>Create or open your project</h3>
+        <p>First time or new email — ask the agent to scaffold it:</p>
+        <div class="prompt">Create a new project at projects/[project-name]/ following your project structure. Interview me for the brief — project type (Standard or With Variables), client, brand colors and fonts, purpose, Figma fileKey and nodeId if there is a design, and the data source if it uses variables — then write the project CLAUDE.md and confirm.</div>
+        <p>Working on an existing project instead:</p>
+        <div class="prompt">Read the project CLAUDE.md at projects/[project-name]/ and confirm you are ready.</div>
+        <p>Replace <code>[project-name]</code> with your project's folder name (e.g. <code>spring-newsletter</code>).</p>
+        <p class="tip">The project brief is where the brand lives — colors, fonts, voice. The agent itself stays client-agnostic, which is what makes it portable.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>—</span><span class="chip"><i>Effort</i>—</span></div>
+        <h3>Install dependencies</h3>
+        <p>In the terminal panel, navigate to your project folder:</p>
+        <span class="cmd">cd projects/[project-name]</span>
+        <p>Install MJML:</p>
+        <span class="cmd">npm install mjml</span>
+        <p>With Variables projects also need the data-source client:</p>
+        <span class="cmd">npm install googleapis</span>
+        <p class="tip">Run only once per project. Skip if already installed.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default</span></div>
         <h3>Connect Figma Dev Mode MCP</h3>
+        <p>Skip this step if you're not building from a Figma design — give the agent a detailed spec instead and jump ahead.</p>
         <p>Open Figma Desktop with the project design file open. In Figma: menu → Preferences → <b>Enable Dev Mode MCP Server</b>. If you don't see this option, the server is already enabled — confirm it in Dev Mode → Inspect → MCP.</p>
         <p>In Figma, in Dev Mode, select the email design frame. Back in the Code tab, send this to the agent:</p>
         <div class="prompt">Read the Figma design. The fileKey and nodeId are in the project CLAUDE.md. Extract all colors, typography, spacing, and image dimensions from every block.</div>
@@ -275,9 +326,10 @@
       <div class="step">
         <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default</span></div>
         <h3>Pre-send QA gate and deliver</h3>
-        <p>Before any real send, ask the agent to run the <code>email-qa</code> subagent on the final HTML: it runs <code>validate-email.js</code> plus the PRE_SEND_QA.md checklist, marking each item pass, fail, or flag-for-review.</p>
+        <p>Before any real send, run the pre-send pass. If your workspace has the <code>email-qa</code> subagent, ask the agent to run it on the final HTML. If it doesn't (a fresh copy of the agent won't include it), paste:</p>
+        <div class="prompt">Run the full PRE_SEND_QA.md checklist on the final HTML in output/ and mark each item pass, fail, or flag-for-review.</div>
         <p>You give the final sign-off — structure, fonts, images, CTAs. The final HTML in <code>output/</code> is the deliverable.</p>
-        <p class="tip">The subagent lives at the workspace root (<code>.claude/agents/email-qa.md</code>) — see the FAQ below for the portability note.</p>
+        <p class="tip">See the FAQ for why the subagent doesn't travel with the folder — the checklist it wraps does.</p>
       </div>
     </div>
   </div>
@@ -340,8 +392,8 @@
     <p class="sec-note">The agent is client-agnostic by design: brand colors, fonts, and voice enter through each project's brief — never through the agent itself. That's what makes it portable.</p>
     <div class="steps">
       <div class="step">
-        <h3>Copy the folder</h3>
-        <p>Grab the entire <code>agent-email-development/</code> folder and put it on any machine — yours or someone else's.</p>
+        <h3>Get the folder</h3>
+        <p>Download the agent from <a href="https://github.com/oegit/agent-email-development">github.com/oegit/agent-email-development</a> (Code → Download ZIP), or copy the <code>agent-email-development/</code> folder from an existing setup. Put it on any machine — yours or someone else's.</p>
       </div>
       <div class="step">
         <h3>Open Claude Code pointing to it</h3>
@@ -449,6 +501,10 @@
     <h2>Quick questions</h2>
     <div class="faq">
       <details>
+        <summary>Where do I get the agent?</summary>
+        <p>It's published at <a href="https://github.com/oegit/agent-email-development">github.com/oegit/agent-email-development</a> — download it as a ZIP from the Quickstart button, or via Code → Download ZIP on GitHub. The download contains the six knowledge files and an empty <code>projects/</code> folder: client projects are not distributed, the agent scaffolds yours from your brief.</p>
+      </details>
+      <details>
         <summary>Does it work for any brand or client?</summary>
         <p>Yes — that's the design. The agent carries only generic email-development knowledge. Brand rules (colors, fonts, voice, claims) live in each project's own brief, so the same agent serves any client without modification.</p>
       </details>
@@ -470,7 +526,7 @@
       </details>
       <details>
         <summary>What is the email-qa subagent?</summary>
-        <p>A Claude Code subagent that automates the pre-send pass: it runs <code>validate-email.js</code> and works through the PRE_SEND_QA.md checklist, marking each item pass, fail, or check-with-a-human. One portability note: Claude Code discovers subagents from the workspace root's <code>.claude/agents/</code> folder (it never looks inside subfolders), so the subagent file lives at the workspace root rather than inside the agent folder — a standalone copy of the folder won't carry it. The knowledge it wraps (<code>PRE_SEND_QA.md</code>, <code>validate-email.js</code>) does travel with the folder, so recreating the wrapper in a new workspace takes a minute.</p>
+        <p>A Claude Code subagent that automates the pre-send pass: it runs <code>validate-email.js</code> and works through the PRE_SEND_QA.md checklist, marking each item pass, fail, or check-with-a-human. One portability note: Claude Code discovers subagents from the workspace root's <code>.claude/agents/</code> folder (it never looks inside subfolders), so the subagent file lives at the workspace root rather than inside the agent folder — a standalone copy of the folder won't carry it. The checklist it wraps (<code>PRE_SEND_QA.md</code>) travels with every copy of the agent, so the agent can run the same pass manually anywhere — and recreating the wrapper in a new workspace takes a minute.</p>
       </details>
       <details>
         <summary>Can I run it without a Figma design?</summary>
@@ -482,7 +538,7 @@
 
 <footer>
   <div class="wrap">
-    Email Development Agent · Guide v1.6 · July 2026 · Built from the agent's own docs
+    Email Development Agent · Guide v1.7 · July 2026 · Built from the agent's own docs
   </div>
 </footer>
 
