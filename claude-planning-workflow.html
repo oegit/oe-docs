@@ -162,7 +162,7 @@
     <h1>Building a Plan:<br><em>from idea to production</em></h1>
     <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
     <div class="meta">
-      <span class="tag">v0.5 · July 2026</span>
+      <span class="tag">v0.6 · July 2026</span>
     </div>
   </div>
 </header>
@@ -179,7 +179,7 @@
           <h3>Define the idea</h3>
           <span class="where repo">Your head + notes</span>
         </div>
-        <p>Write down in 5 minutes: the objective, what's in scope, what's NOT in scope, and the constraints. Without this, everything else gets built on sand.</p>
+        <p>Write down in 5 minutes: the objective, what's in scope, what's NOT in scope, and the constraints. Without this, everything else gets built on sand. For large projects, this stop can grow into a full <strong>spec document</strong> — see Scenario B below.</p>
       </div>
 
       <div class="stop">
@@ -190,8 +190,11 @@
         </div>
         <p>Say "let's plan X" and attach every piece of evidence you have — the <strong>planning-kickoff skill</strong> loads the right template automatically. No GitHub access needed here: it's a regular chat. The output is a phased plan you download: <code>PLAN_X.md</code>.</p>
         <div class="why"><strong>Why in chat:</strong> planning is cheap; fixing a poorly planned execution is expensive. A planning mistake multiplies into every task built on top of it.</div>
+
+        <p><strong>Two kickoff scenarios.</strong> Pick by project size: a small project defines everything inline in the message (A); a large project builds a spec document first, and the kickoff message only points to it (B).</p>
+
         <div class="paste">
-          <div class="paste-label">Copy-paste kickoff message</div>
+          <div class="paste-label">Scenario A — small project, no spec doc</div>
           <pre>Let's plan [PROJECT NAME].
 
 Objective: [...]
@@ -199,7 +202,7 @@ In scope: [...]
 Out of scope: [...]
 Constraints: [...]
 
-The output of this workstream will live in this claude.ai Project (files + instructions).</pre>
+The output of this workstream will live in this claude.ai Project (Context + Instructions).</pre>
           <ul class="paste-keys">
             <li><b>Objective</b> — the outcome this must achieve, and why now. 1–3 sentences.</li>
             <li><b>In scope</b> — what the project WILL deliver. Concrete pieces, e.g. "landing page + 3 email variants + UTM tracking".</li>
@@ -207,6 +210,27 @@ The output of this workstream will live in this claude.ai Project (files + instr
             <li><b>Constraints</b> — the non-negotiables the plan must respect: deadlines, budget, brand rules, frozen repos, required approvals.</li>
           </ul>
           <p class="paste-note">Replace every <code>[...]</code> with your own content before sending — never send the brackets as-is, and delete any line that doesn't apply. The last line only belongs when you're planning inside a claude.ai Project. Attach all your evidence in the same message.</p>
+        </div>
+
+        <div class="paste">
+          <div class="paste-label">Scenario B — large project with a spec doc</div>
+          <pre>Let's plan [PROJECT NAME].
+
+- Objective, in scope, out of scope and constraints: everything is
+  defined and closed in [SPEC_FILE].md ([version]), uploaded to this
+  Project's Context. Use it as the complete Define — do not re-ask
+  what's already decided.
+- The output of this workstream will live in this claude.ai Project
+  (Context + Instructions).
+
+Use the planning-kickoff skill. Output: PLAN_[PROJECT NAME].md in English.</pre>
+          <ul class="paste-keys">
+            <li><b>Spec doc first</b> — build the complete Define (objective, scope, constraints, every closed decision) as one document BEFORE this message. The doc is the single source of truth; the message only points to it.</li>
+            <li><b>Upload to Context</b> — on the Project page, use the <b>+</b> button on the <b>Context</b> panel. Every chat in the Project inherits it automatically.</li>
+            <li><b>One version only</b> — only the current spec lives in Context. When the spec changes, delete the old file and upload the new one, so stale rules can't leak into new chats.</li>
+            <li><b>Never retype the fields</b> — duplicating spec content inside the message desynchronizes the source of truth.</li>
+          </ul>
+          <p class="paste-note">Use Scenario B whenever a Define/spec document exists. Scenario A is the fallback for projects small enough to define inside the message itself.</p>
         </div>
       </div>
 
@@ -259,6 +283,11 @@ The output of this workstream will live in this claude.ai Project (files + instr
             <td>Planning templates</td>
             <td>Installed as the <code>planning-kickoff</code> Claude skill — source mirrored at <code>oe-docs/downloads/planning-kickoff/</code></td>
             <td>The reusable prompts that kick off any planning session. As an installed skill, they load automatically — nobody opens or pastes them by hand.</td>
+          </tr>
+          <tr>
+            <td>Spec docs (large projects)</td>
+            <td>The claude.ai Project's <b>Context</b> panel (current version only) + versioned copy in the repo when execution starts</td>
+            <td>The complete Define for a large project: objective, scope, constraints and every closed decision. Source of truth for Scenario B kickoffs.</td>
           </tr>
           <tr>
             <td>Plans (<code>PLAN_X.md</code>)</td>
@@ -340,7 +369,7 @@ The output of this workstream will live in this claude.ai Project (files + instr
       </div>
       <div class="rule">
         <div class="q">What does the full flow look like inside a Project?</div>
-        <div class="a">If the topic earns a Project, create it empty and plan inside it from chat 1:<br><b>Chat 1</b> → the skill fires → clarifying questions in one batch → you answer → <code>PLAN_X.md</code> is generated in that same chat → upload it to the Project with the <b>+</b> button → write the Project <b>Instructions</b> → every new chat in that Project starts with the plan and rules already loaded.</div>
+        <div class="a">If the topic earns a Project, create it empty and plan inside it from chat 1:<br><b>Chat 1</b> → the skill fires → clarifying questions in one batch → you answer → <code>PLAN_X.md</code> is generated in that same chat → upload it to the Project's <b>Context</b> panel with the <b>+</b> button → write the Project <b>Instructions</b> → every new chat in that Project starts with the plan and rules already loaded. For large projects, the spec doc goes into Context BEFORE chat 1 (Scenario B).</div>
       </div>
       <div class="rule">
         <div class="q">Which model for which job?</div>
