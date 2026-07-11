@@ -280,8 +280,8 @@
         <p>Fixes get applied — and any new discovery is written back into the rule files. The agent gets permanently smarter with every project.</p>
       </div>
       <div class="step">
-        <h3>Pre-send QA gate <span class="who manual">You</span></h3>
-        <p>Before any real send, the consolidated checklist runs: structure, fonts, images, CTAs, sign-off. Nothing ships without passing it.</p>
+        <h3>Pre-send QA gate <span class="who">email-qa subagent</span> <span class="who manual">You</span></h3>
+        <p>Before any real send, the <code>email-qa</code> subagent runs the automated pass — <code>validate-email.js</code> plus the consolidated checklist — marking each item pass, fail, or flag-for-review. You give the final sign-off: structure, fonts, images, CTAs. Nothing ships without passing both.</p>
       </div>
     </div>
   </div>
@@ -327,6 +327,10 @@
         <p>Every new bug found in QA gets documented in the rule files with the problem, the client, the fix, and why it works. The next project inherits all of it automatically.</p>
       </details>
       <details>
+        <summary>What is the email-qa subagent?</summary>
+        <p>A Claude Code subagent that automates the pre-send pass: it runs <code>validate-email.js</code> and works through the PRE_SEND_QA.md checklist, marking each item pass, fail, or check-with-a-human. One portability note: Claude Code discovers subagents from the workspace root's <code>.claude/agents/</code> folder (it never looks inside subfolders), so the subagent file lives at the workspace root rather than inside the agent folder — a standalone copy of the folder won't carry it. The knowledge it wraps (<code>PRE_SEND_QA.md</code>, <code>validate-email.js</code>) does travel with the folder, so recreating the wrapper in a new workspace takes a minute.</p>
+      </details>
+      <details>
         <summary>Can I run it without a Figma design?</summary>
         <p>Yes — Figma is the standard input, but the agent can build from any sufficiently detailed spec. The design-token extraction step is just skipped or replaced by the spec.</p>
       </details>
@@ -336,7 +340,7 @@
 
 <footer>
   <div class="wrap">
-    Email Development Agent · Guide v1.3 · July 2026 · Built from the agent's own docs
+    Email Development Agent · Guide v1.4 · July 2026 · Built from the agent's own docs
   </div>
 </footer>
 
