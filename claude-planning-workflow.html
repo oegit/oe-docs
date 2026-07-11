@@ -170,7 +170,7 @@
     <h1>Building a Plan:<br><em>from idea to production</em></h1>
     <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
     <div class="meta">
-      <span class="tag">v0.7 · July 2026</span>
+      <span class="tag">v0.8 · July 2026</span>
     </div>
   </div>
 </header>
@@ -388,6 +388,10 @@ Use the planning-kickoff skill. Output: PLAN_[PROJECT NAME].md in English.</pre>
   <div class="wrap">
     <h2>Quick rules</h2>
     <div class="rules">
+      <div class="rule">
+        <div class="q">"Let's build the spec" vs. "let's plan" — which comes first?</div>
+        <div class="a"><b>Large projects: spec first, then plan.</b> "Let's build the spec for X" runs the <a href="#spec-doc">Spec Doc process</a> (Stop 01) until open questions = 0 → the final <code>SPEC_X.md</code> goes into the Project's <b>Context</b> → then, in a new chat, "let's plan X" with the <a href="#scenario-b">Scenario B</a> kickoff produces <code>PLAN_X.md</code>. Small projects skip the spec entirely: straight to "let's plan X" with <a href="#scenario-a">Scenario A</a>.<br><br>They answer different questions: the spec decides <b>WHAT</b> we're building (closed decisions); the plan decides <b>HOW and in what order</b> (phased tasks, verification, commits). The plan never re-decides what the spec already closed — the bridge between them is the spec in Context, which the kickoff message only points to.<br><br><b>Practical rule:</b> if you can define the whole project in one message → Scenario A. If it needs several decision rounds → spec first (B). A new banner goes straight to plan; a full brand-guidelines rebuild gets a spec.</div>
+      </div>
       <div class="rule">
         <div class="q">Is planning the most important part?</div>
         <div class="a">Yes, <b>together with verification</b>. Solid plan + verification against real files = a project that ships. Solid plan without verification = a pretty plan that breaks at task 2.</div>
