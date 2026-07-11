@@ -155,7 +155,7 @@
     <h1>Building a Plan:<br>from idea <em>to production</em></h1>
     <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
     <div class="meta">
-      <span class="tag">v0.3 · July 2026</span>
+      <span class="tag">v0.4 · July 2026</span>
     </div>
   </div>
 </header>
@@ -280,7 +280,7 @@
         <dl>
           <dt>When</dt><dd>Stop 02 — to turn basic specs into a solid plan.</dd>
           <dt>Where</dt><dd>Chat in the Claude app (or inside a Project). Loads automatically once the skill is installed.</dd>
-          <dt>Model</dt><dd>The most capable model available, with extended thinking on.</dd>
+          <dt>Model</dt><dd>The most capable model available, effort High.</dd>
           <dt>Key rule</dt><dd>The model can't see your files: everything unconfirmed gets tagged <code>[UNVERIFIED]</code>.</dd>
           <dt>Produces</dt><dd><code>PLAN_X.md</code> + a handoff prompt ready for Claude Code.</dd>
         </dl>
@@ -314,12 +314,16 @@
         <div class="a">No. Use a <b>Project</b> when you'll have 3+ chats on the same topic (the context stays loaded). Use a <b>regular chat</b> for one-off planning: the skill plus your attached evidence is enough.</div>
       </div>
       <div class="rule">
+        <div class="q">What does the full flow look like inside a Project?</div>
+        <div class="a">If the topic earns a Project, create it empty and plan inside it from chat 1:<br><b>Chat 1</b> → the skill fires → clarifying questions in one batch → you answer → <code>PLAN_X.md</code> is generated in that same chat → upload it to the Project with the <b>+</b> button → write the Project <b>Instructions</b> → every new chat in that Project starts with the plan and rules already loaded.</div>
+      </div>
+      <div class="rule">
         <div class="q">Which model for which job?</div>
         <div class="a">
           <b>The axis is risk + ambiguity, not "planning vs. execution."</b>
           <table class="modeltable">
             <tr><th>Model</th><th>Effort</th><th>Use it for</th></tr>
-            <tr><td>Claude Fable 5</td><td>—</td><td>Deciding, planning, audits — deep analysis with lots of evidence</td></tr>
+            <tr><td>Claude Fable 5</td><td>High</td><td>Deciding, planning, audits — deep analysis with lots of evidence</td></tr>
             <tr><td>Claude Opus 4.8</td><td>High</td><td>Risky execution: production, new features, rewrites</td></tr>
             <tr><td>Claude Sonnet 5</td><td>Max</td><td>Routine, well-specced code generation</td></tr>
             <tr><td>Claude Sonnet 5</td><td>Low–Medium</td><td>Git ops and other automation</td></tr>
