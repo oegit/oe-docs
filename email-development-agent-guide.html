@@ -226,6 +226,7 @@
 ├── RESPONSIVE_RULES.md
 ├── FIGMA_TO_EMAIL_WORKFLOW.md
 ├── PRE_SEND_QA.md
+├── validate-email.js
 └── projects/
     └── your-project/
         ├── CLAUDE.md
@@ -326,10 +327,12 @@
       <div class="step">
         <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default</span></div>
         <h3>Pre-send QA gate and deliver</h3>
-        <p>Before any real send, run the pre-send pass. If your workspace has the <code>email-qa</code> subagent, ask the agent to run it on the final HTML. If it doesn't (a fresh copy of the agent won't include it), paste:</p>
-        <div class="prompt">Run the full PRE_SEND_QA.md checklist on the final HTML in output/ and mark each item pass, fail, or flag-for-review.</div>
+        <p>Before any real send, run the automated gate — it ships with the agent, checks the compiled HTML against the hard rules, and writes <code>VALIDATION_REPORT.md</code>. From your project folder:</p>
+        <span class="cmd">node ../../validate-email.js output/*.html</span>
+        <p>Fix any blocking failure and re-run until it passes. Then have the agent walk the manual items:</p>
+        <div class="prompt">Run the PRE_SEND_QA.md checklist on the final HTML in output/. Skip the items already covered by VALIDATION_REPORT.md and mark each remaining item pass, fail, or flag-for-review.</div>
         <p>You give the final sign-off — structure, fonts, images, CTAs. The final HTML in <code>output/</code> is the deliverable.</p>
-        <p class="tip">See the FAQ for why the subagent doesn't travel with the folder — the checklist it wraps does.</p>
+        <p class="tip">If your workspace has the <code>email-qa</code> subagent, it wraps both passes into one ask — but the script and the checklist travel with every copy of the agent, so this step works anywhere.</p>
       </div>
     </div>
   </div>
@@ -347,7 +350,7 @@
 <section>
   <div class="wrap">
     <h2>What's inside the folder</h2>
-    <p class="sec-note">Six knowledge files plus a <code>projects/</code> folder. Claude reads them automatically at the start of every project — you never open them yourself.</p>
+    <p class="sec-note">Six knowledge files, the automated QA script, and a <code>projects/</code> folder. Claude reads the knowledge files automatically at the start of every project — you never open them yourself.</p>
     <div class="files">
       <div class="file"><span class="name">CLAUDE.md</span><span class="desc">The agent's identity, tech stack, and core rules. Claude reads it on startup.</span></div>
       <div class="file"><span class="name">OUTLOOK_RULES.md</span><span class="desc">Everything Outlook breaks and how to fix it — VML buttons, conditional comments, font fallbacks.</span></div>
@@ -355,6 +358,7 @@
       <div class="file"><span class="name">RESPONSIVE_RULES.md</span><span class="desc">Mobile behavior: breakpoints, fluid images, stacking rules.</span></div>
       <div class="file"><span class="name">FIGMA_TO_EMAIL_WORKFLOW.md</span><span class="desc">The 10-step process from design file to production HTML.</span></div>
       <div class="file"><span class="name">PRE_SEND_QA.md</span><span class="desc">The consolidated checklist that gates every real send.</span></div>
+      <div class="file"><span class="name">validate-email.js</span><span class="desc">Automated pre-send QA gate — checks the compiled HTML against the hard rules and writes VALIDATION_REPORT.md. Zero dependencies.</span></div>
     </div>
   </div>
 </section>
@@ -502,7 +506,7 @@
     <div class="faq">
       <details>
         <summary>Where do I get the agent?</summary>
-        <p>It's published at <a href="https://github.com/oegit/agent-email-development">github.com/oegit/agent-email-development</a> — download it as a ZIP from the Quickstart button, or via Code → Download ZIP on GitHub. The download contains the six knowledge files and an empty <code>projects/</code> folder: client projects are not distributed, the agent scaffolds yours from your brief.</p>
+        <p>It's published at <a href="https://github.com/oegit/agent-email-development">github.com/oegit/agent-email-development</a> — download it as a ZIP from the Quickstart button, or via Code → Download ZIP on GitHub. The download contains the six knowledge files, the <code>validate-email.js</code> QA script, and an empty <code>projects/</code> folder: client projects are not distributed, the agent scaffolds yours from your brief.</p>
       </details>
       <details>
         <summary>Does it work for any brand or client?</summary>
@@ -526,7 +530,7 @@
       </details>
       <details>
         <summary>What is the email-qa subagent?</summary>
-        <p>A Claude Code subagent that automates the pre-send pass: it runs <code>validate-email.js</code> and works through the PRE_SEND_QA.md checklist, marking each item pass, fail, or check-with-a-human. One portability note: Claude Code discovers subagents from the workspace root's <code>.claude/agents/</code> folder (it never looks inside subfolders), so the subagent file lives at the workspace root rather than inside the agent folder — a standalone copy of the folder won't carry it. The checklist it wraps (<code>PRE_SEND_QA.md</code>) travels with every copy of the agent, so the agent can run the same pass manually anywhere — and recreating the wrapper in a new workspace takes a minute.</p>
+        <p>A Claude Code subagent that automates the pre-send pass: it runs <code>validate-email.js</code> and works through the PRE_SEND_QA.md checklist, marking each item pass, fail, or check-with-a-human. One portability note: Claude Code discovers subagents from the workspace root's <code>.claude/agents/</code> folder (it never looks inside subfolders), so the subagent file lives at the workspace root rather than inside the agent folder — a standalone copy of the folder won't carry it. Both halves it wraps do travel with every copy of the agent: <code>validate-email.js</code> automates the mechanical checks and <code>PRE_SEND_QA.md</code> covers the manual ones, so the same gate runs anywhere — and recreating the wrapper in a new workspace takes a minute.</p>
       </details>
       <details>
         <summary>Can I run it without a Figma design?</summary>
@@ -538,7 +542,7 @@
 
 <footer>
   <div class="wrap">
-    Email Development Agent · Guide v1.7 · July 2026 · Built from the agent's own docs
+    Email Development Agent · Guide v1.8 · July 2026 · Built from the agent's own docs
   </div>
 </footer>
 
