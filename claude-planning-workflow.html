@@ -100,6 +100,13 @@
     background:#FDF9F0;max-width:640px;font-size:15.5px;
   }
 
+  .paste{margin-top:16px;max-width:600px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .paste-label{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--petrol-dark);background:var(--petrol-soft);padding:8px 14px;font-weight:500}
+  .paste pre{font-family:var(--mono);font-size:13.5px;line-height:1.6;padding:14px 16px;white-space:pre-wrap;color:var(--ink);background:#F7F9FF;border-bottom:1px solid var(--line)}
+  .paste-keys{list-style:none;padding:12px 16px 2px;display:grid;gap:8px;font-size:14.5px;color:var(--ink-soft)}
+  .paste-keys b{color:var(--ink)}
+  .paste-note{padding:8px 16px 14px;font-size:13.5px;color:var(--ink-soft)}
+
   .map{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:block;overflow-x:auto}
   .map table{width:100%;border-collapse:collapse;min-width:640px}
   .map th{
@@ -152,10 +159,10 @@
   <div class="wrap">
     <a class="back" href="index.html">← All guides</a>
     <div class="kicker">Planning Workflow</div>
-    <h1>Building a Plan:<br>from idea <em>to production</em></h1>
+    <h1>Building a Plan:<br><em>from idea to production</em></h1>
     <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
     <div class="meta">
-      <span class="tag">v0.4 · July 2026</span>
+      <span class="tag">v0.5 · July 2026</span>
     </div>
   </div>
 </header>
@@ -183,6 +190,24 @@
         </div>
         <p>Say "let's plan X" and attach every piece of evidence you have — the <strong>planning-kickoff skill</strong> loads the right template automatically. No GitHub access needed here: it's a regular chat. The output is a phased plan you download: <code>PLAN_X.md</code>.</p>
         <div class="why"><strong>Why in chat:</strong> planning is cheap; fixing a poorly planned execution is expensive. A planning mistake multiplies into every task built on top of it.</div>
+        <div class="paste">
+          <div class="paste-label">Copy-paste kickoff message</div>
+          <pre>Let's plan [PROJECT NAME].
+
+Objective: [...]
+In scope: [...]
+Out of scope: [...]
+Constraints: [...]
+
+The output of this workstream will live in this claude.ai Project (files + instructions).</pre>
+          <ul class="paste-keys">
+            <li><b>Objective</b> — the outcome this must achieve, and why now. 1–3 sentences.</li>
+            <li><b>In scope</b> — what the project WILL deliver. Concrete pieces, e.g. "landing page + 3 email variants + UTM tracking".</li>
+            <li><b>Out of scope</b> — what it deliberately will NOT touch, even if related. Being explicit here is what prevents scope creep, e.g. "no CRM changes, no paid media".</li>
+            <li><b>Constraints</b> — the non-negotiables the plan must respect: deadlines, budget, brand rules, frozen repos, required approvals.</li>
+          </ul>
+          <p class="paste-note">Replace every <code>[...]</code> with your own content before sending — never send the brackets as-is, and delete any line that doesn't apply. The last line only belongs when you're planning inside a claude.ai Project. Attach all your evidence in the same message.</p>
+        </div>
       </div>
 
       <div class="stop">
