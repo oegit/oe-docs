@@ -119,6 +119,47 @@
   details[open] summary::after{content:"−"}
   details p{padding:0 20px 16px;color:var(--ink-soft);font-size:15.5px}
 
+
+  /* Quickstart */
+  .qs-sub{font-size:17px;margin:30px 0 12px}
+  .tree{
+    font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 22px;max-width:680px;
+    overflow-x:auto;color:var(--ink);
+  }
+  .tree i{font-style:normal;color:var(--ink-soft)}
+  .legend{
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);max-width:680px;
+    margin:16px 0 24px;line-height:1.8;
+  }
+  .legend b{color:var(--ink)}
+  .route{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+  .chip{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+    padding:3px 9px;border-radius:4px;border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  }
+  .chip i{font-style:normal;color:var(--ink-soft);margin-right:4px}
+  .chip.alt{background:#FDF4E4;border-color:#EED9AE;color:#8a5a10}
+  .chip.alt i{color:#B08434}
+  .prompt{
+    background:var(--blue-soft);border:1px solid #C9DEFF;border-radius:10px;
+    padding:14px 16px;margin:10px 0;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--ink);
+  }
+  .prompt::before{
+    content:"PROMPT — PASTE AS-IS";display:block;font-size:10px;letter-spacing:.08em;
+    color:var(--blue-deep);margin-bottom:8px;font-weight:600;
+  }
+  .cmd{
+    display:block;font-family:var(--mono);font-size:13.5px;background:var(--ink);color:#EAF2FF;
+    border-radius:8px;padding:11px 15px;margin:10px 0;overflow-x:auto;white-space:pre;
+  }
+  .step p+p{margin-top:7px}
+  .tip{
+    margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);
+    font-size:14px;color:var(--ink-soft);
+  }
+  .tip::before{content:"↳ ";color:var(--blue);font-family:var(--mono);font-weight:600}
+
   footer{padding:36px 0 60px;color:var(--ink-soft);font-size:14px}
 </style>
 </head>
@@ -249,7 +290,7 @@
 <section>
   <div class="wrap">
     <h2>How a project runs</h2>
-    <p class="sec-note">The full 10-step workflow, condensed. Claude drives; you review at the checkpoints.</p>
+    <p class="sec-note">The full 10-step workflow, condensed. Claude drives; you review at the checkpoints. Need the exact commands and prompts? Jump to the <a href="#quickstart">Quickstart</a> below.</p>
     <div class="steps">
       <div class="step">
         <h3>Read the project brief <span class="who">Claude</span></h3>
@@ -302,6 +343,107 @@
   </div>
 </section>
 
+<section id="quickstart">
+  <div class="wrap">
+    <h2>Quickstart: run a project end to end</h2>
+    <p class="sec-note">The hands-on version of the workflow above — every command, every prompt, and which model to run at each step. Everything happens in the Claude Desktop App.</p>
+
+    <h3 class="qs-sub">Folder structure</h3>
+    <pre class="tree">agent-email-development/
+├── CLAUDE.md
+├── OUTLOOK_RULES.md
+├── DARK_MODE_RULES.md
+├── RESPONSIVE_RULES.md
+├── FIGMA_TO_EMAIL_WORKFLOW.md
+├── PRE_SEND_QA.md
+└── projects/
+    └── your-project/
+        ├── CLAUDE.md
+        ├── template.mjml
+        ├── output/
+        ├── generate.js       <i>← With Variables only</i>
+        └── package.json      <i>← With Variables only</i></pre>
+
+    <p class="legend"><b>Where</b> = which tab of the Claude Desktop App (Code or Chat) · <b>Model</b> + <b>Effort</b> = what to select for that step. Switching mid-project is normal — cheap models for scripts, stronger ones for hard bugs.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>—</span><span class="chip"><i>Effort</i>—</span></div>
+        <h3>Install dependencies</h3>
+        <p>Open the Claude Desktop App, go to the Code tab, and point it to <code>agent-email-development/</code>. Navigate to your project folder:</p>
+        <span class="cmd">cd projects/[project-name]</span>
+        <p>In the terminal panel, run:</p>
+        <span class="cmd">npm install mjml googleapis</span>
+        <p class="tip">Run only once per project. Skip if already installed.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default</span></div>
+        <h3>Start the agent</h3>
+        <p>With the Code tab open at <code>agent-email-development/</code>, paste this prompt:</p>
+        <div class="prompt">You are the Email Developer Agent. Read your CLAUDE.md at the root of this folder, plus OUTLOOK_RULES.md, DARK_MODE_RULES.md, RESPONSIVE_RULES.md, FIGMA_TO_EMAIL_WORKFLOW.md, and PRE_SEND_QA.md. Then read the project CLAUDE.md at projects/[project-name]/. When done, summarize what you understood and confirm you are ready.</div>
+        <p>Replace <code>[project-name]</code> with your actual project folder name.</p>
+        <p class="tip">Verify the summary is correct before continuing. If something is wrong, correct it here.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default</span></div>
+        <h3>Connect Figma Dev Mode MCP</h3>
+        <p>Open Figma Desktop with the project design file open. In Figma: menu → Preferences → <b>Enable Dev Mode MCP Server</b>. If you don't see this option, the server is already enabled — confirm it in Dev Mode → Inspect → MCP.</p>
+        <p>In Figma, in Dev Mode, select the email design frame. Back in the Code tab, send this to the agent:</p>
+        <div class="prompt">Read the Figma design. The fileKey and nodeId are in the project CLAUDE.md. Extract all colors, typography, spacing, and image dimensions from every block.</div>
+        <p class="tip">Figma Dev Mode MCP only works from the Code tab (localhost). It does not work from Chat.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default → Max</span></div>
+        <h3>Build the email</h3>
+        <p>The agent maps each design block and writes <code>template.mjml</code>. Standard projects use fixed design values — no placeholders. With Variables projects use <code>{{PLACEHOLDERS}}</code> as defined in the project CLAUDE.md.</p>
+        <p>The agent compiles the template:</p>
+        <span class="cmd">mjml template.mjml -o output/email.html</span>
+        <p>It then hand-finishes the HTML: VML for rounded buttons, <code>mso-color-alt</code> for critical colors.</p>
+        <p class="tip">Switch to Sonnet Max for complex bugs — Outlook layout, dark mode issues, etc.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Haiku</span><span class="chip"><i>Effort</i>Default</span></div>
+        <h3>Generate the HTMLs — With Variables only</h3>
+        <p>Standard projects: skip this step. Run mock first — it tests generation without connecting to the live data source:</p>
+        <span class="cmd">node generate.js --mock</span>
+        <p>If the mock output looks correct, run production:</p>
+        <span class="cmd">node generate.js</span>
+        <p>Check <code>output/</code> — one HTML per data row.</p>
+        <p class="tip">Haiku is sufficient here — this step only runs scripts, no complex reasoning needed.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip alt"><i>Where</i>Chat</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default → Max</span></div>
+        <h3>QA in Litmus</h3>
+        <p>Upload the HTML from <code>output/</code> to Litmus. Test on the priority clients: Outlook 2019 / 2021 / 365, Gmail, Apple Mail, Outlook.com, Yahoo Mail.</p>
+        <p>Check: fonts (serif where they shouldn't be?), gray gaps between blocks, rounded buttons, dark mode, mobile layout.</p>
+        <p>Paste the Litmus screenshots into Chat and ask the agent to diagnose and fix.</p>
+        <p class="tip">Use Chat here — you can paste screenshots directly. Switch to Sonnet Max for complex bugs.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Haiku → Sonnet</span><span class="chip"><i>Effort</i>Default → Max</span></div>
+        <h3>Fix and document</h3>
+        <p>Simple fixes (padding, colors, copy): Haiku, Default effort. Complex fixes (Outlook layout, dark mode): Sonnet, Max effort. Re-compile and re-test in Litmus after every fix.</p>
+        <p>If a new bug was discovered, add it to OUTLOOK_RULES.md or DARK_MODE_RULES.md.</p>
+        <p class="tip">Documenting new bugs keeps the agent smarter for every future project.</p>
+      </div>
+
+      <div class="step">
+        <div class="route"><span class="chip"><i>Where</i>Code</span><span class="chip"><i>Model</i>Sonnet</span><span class="chip"><i>Effort</i>Default</span></div>
+        <h3>Pre-send QA gate and deliver</h3>
+        <p>Before any real send, ask the agent to run the <code>email-qa</code> subagent on the final HTML: it runs <code>validate-email.js</code> plus the PRE_SEND_QA.md checklist, marking each item pass, fail, or flag-for-review.</p>
+        <p>You give the final sign-off — structure, fonts, images, CTAs. The final HTML in <code>output/</code> is the deliverable.</p>
+        <p class="tip">The subagent lives at the workspace root (<code>.claude/agents/email-qa.md</code>) — see the FAQ below for the portability note.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <h2>Quick questions</h2>
@@ -340,7 +482,7 @@
 
 <footer>
   <div class="wrap">
-    Email Development Agent · Guide v1.4 · July 2026 · Built from the agent's own docs
+    Email Development Agent · Guide v1.5 · July 2026 · Built from the agent's own docs
   </div>
 </footer>
 
