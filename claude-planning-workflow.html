@@ -107,6 +107,8 @@
   .paste-keys b{color:var(--ink)}
   .paste-note{padding:8px 16px 14px;font-size:13.5px;color:var(--ink-soft)}
 
+  .spec-where{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px 0;font-size:14px;color:var(--ink-soft)}
+  .spec-where b{color:var(--ink)}
   .spec-steps{list-style:none;counter-reset:sd;padding:14px 16px 8px;display:grid;gap:12px;font-size:14.5px;color:var(--ink-soft)}
   .spec-steps li{position:relative;padding-left:36px}
   .spec-steps li::before{counter-increment:sd;content:counter(sd,decimal-leading-zero);position:absolute;left:0;top:2px;font-family:var(--mono);font-size:12px;color:var(--petrol-dark);font-weight:600}
@@ -170,7 +172,7 @@
     <h1>Building a Plan:<br><em>from idea to production</em></h1>
     <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
     <div class="meta">
-      <span class="tag">v0.8 · July 2026</span>
+      <span class="tag">v0.9 · July 2026</span>
     </div>
   </div>
 </header>
@@ -191,6 +193,7 @@
 
         <div class="paste" id="spec-doc">
           <div class="paste-label">The Spec Doc process — large projects only</div>
+          <div class="spec-where"><span class="where chat">Chat (Claude app)</span> <span>Runs in a regular chat — ideally inside the target claude.ai Project, never in Claude Code. Model: <b>Claude Fable 5, effort High</b> (always the most capable model available).</span></div>
           <ol class="spec-steps">
             <li><b>Initial dump.</b> Describe the idea in natural language, plus the deliverables you have in mind. No structure required yet — just get it all out.</li>
             <li><b>Expansion.</b> The model proposes everything the dump is missing: undecided points, edge cases, dependencies, hidden assumptions. You decide what makes it into the spec — nothing enters without your call.</li>
@@ -410,7 +413,7 @@ Use the planning-kickoff skill. Output: PLAN_[PROJECT NAME].md in English.</pre>
           <b>The axis is risk + ambiguity, not "planning vs. execution."</b>
           <table class="modeltable">
             <tr><th>Model</th><th>Effort</th><th>Use it for</th></tr>
-            <tr><td>Claude Fable 5</td><td>High</td><td>Deciding, planning, audits — deep analysis with lots of evidence</td></tr>
+            <tr><td>Claude Fable 5</td><td>High</td><td>Deciding, planning, audits, spec docs — deep analysis with lots of evidence</td></tr>
             <tr><td>Claude Opus 4.8</td><td>High</td><td>Risky execution: production, new features, rewrites</td></tr>
             <tr><td>Claude Sonnet 5</td><td>Max</td><td>Routine, well-specced code generation</td></tr>
             <tr><td>Claude Sonnet 5</td><td>Low–Medium</td><td>Git ops and other automation</td></tr>
