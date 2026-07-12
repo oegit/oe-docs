@@ -172,7 +172,7 @@
     <h1>Building a Plan:<br><em>from idea to production</em></h1>
     <p class="lede">The standard process: where an idea starts, where it gets planned, where it gets verified, and where every step is documented.</p>
     <div class="meta">
-      <span class="tag">v0.9 · July 2026</span>
+      <span class="tag">v0.10 · July 2026</span>
     </div>
   </div>
 </header>
@@ -211,6 +211,24 @@
               <li>Prefer running the process inside the Project itself, so the Project's Memory absorbs the decisions as they close.</li>
             </ul>
           </div>
+        </div>
+
+        <div class="paste" id="spec-kickoff">
+          <div class="paste-label">Spec kickoff — first message of the spec chat</div>
+          <pre>Let's build the Spec Doc for [PROJECT NAME].
+
+Initial dump:
+[Describe the idea in natural language — what it is, why now, and
+the deliverables you have in mind. Messy is fine; that's the point.]
+
+Run the Spec Doc process: propose everything that's missing, then
+iterate decision rounds until open questions = 0.
+Output: SPEC_[PROJECT NAME].md in English, versioned v0.1 → v0.N.</pre>
+          <ul class="paste-keys">
+            <li><b>Where to send it</b> — a NEW chat, ideally inside the target claude.ai Project, on Claude Fable 5, effort High. The phrase "let's build the spec" triggers the planning-kickoff skill.</li>
+            <li><b>Initial dump</b> — this is Step 1 of the process: the idea in your own words plus the deliverables you have in mind. Don't structure it, don't pre-decide — the expansion round exists for that.</li>
+          </ul>
+          <p class="paste-note">Everything after this message IS the process: expansion → decision rounds → close at open questions = 0. When the spec is FINAL, upload it to the Project's <b>Context</b> and continue with the <a href="#scenario-b">Scenario B</a> kickoff in Stop 02.</p>
         </div>
       </div>
 
@@ -383,7 +401,7 @@ Use the planning-kickoff skill. Output: PLAN_[PROJECT NAME].md in English.</pre>
         </dl>
       </div>
     </div>
-    <p class="card-note">Trigger: just say "let's plan X", "help me plan X", or "new project: X" in any chat with the skill installed — see the <a href="planning-kickoff-skill-guide.html">planning-kickoff skill guide</a> for the full install + trigger flow. The skill also ships the Spec Doc process (<code>SPEC_DOC_PROCESS.md</code>) — trigger it with "let's build the spec for X" / "hagamos el spec de X".</p>
+    <p class="card-note">Trigger: just say "let's plan X", "help me plan X", or "new project: X" in any chat with the skill installed — see the <a href="planning-kickoff-skill-guide.html">planning-kickoff skill guide</a> for the full install + trigger flow. The skill also ships the Spec Doc process (<code>SPEC_DOC_PROCESS.md</code>) — trigger it with the <a href="#spec-kickoff">spec kickoff message</a>: "Let's build the Spec Doc for X" / "hagamos el spec de X".</p>
   </div>
 </section>
 
@@ -393,7 +411,7 @@ Use the planning-kickoff skill. Output: PLAN_[PROJECT NAME].md in English.</pre>
     <div class="rules">
       <div class="rule">
         <div class="q">"Let's build the spec" vs. "let's plan" — which comes first?</div>
-        <div class="a"><b>Large projects: spec first, then plan.</b> "Let's build the spec for X" runs the <a href="#spec-doc">Spec Doc process</a> (Stop 01) until open questions = 0 → the final <code>SPEC_X.md</code> goes into the Project's <b>Context</b> → then, in a new chat, "let's plan X" with the <a href="#scenario-b">Scenario B</a> kickoff produces <code>PLAN_X.md</code>. Small projects skip the spec entirely: straight to "let's plan X" with <a href="#scenario-a">Scenario A</a>.<br><br>They answer different questions: the spec decides <b>WHAT</b> we're building (closed decisions); the plan decides <b>HOW and in what order</b> (phased tasks, verification, commits). The plan never re-decides what the spec already closed — the bridge between them is the spec in Context, which the kickoff message only points to.<br><br><b>Practical rule:</b> if you can define the whole project in one message → Scenario A. If it needs several decision rounds → spec first (B). A new banner goes straight to plan; a full brand-guidelines rebuild gets a spec.</div>
+        <div class="a"><b>Large projects: spec first, then plan.</b> The <a href="#spec-kickoff">spec kickoff message</a> ("Let's build the Spec Doc for X") runs the <a href="#spec-doc">Spec Doc process</a> (Stop 01) until open questions = 0 → the final <code>SPEC_X.md</code> goes into the Project's <b>Context</b> → then, in a new chat, "let's plan X" with the <a href="#scenario-b">Scenario B</a> kickoff produces <code>PLAN_X.md</code>. Small projects skip the spec entirely: straight to "let's plan X" with <a href="#scenario-a">Scenario A</a>.<br><br>They answer different questions: the spec decides <b>WHAT</b> we're building (closed decisions); the plan decides <b>HOW and in what order</b> (phased tasks, verification, commits). The plan never re-decides what the spec already closed — the bridge between them is the spec in Context, which the kickoff message only points to.<br><br><b>Practical rule:</b> if you can define the whole project in one message → Scenario A. If it needs several decision rounds → spec first (B). A new banner goes straight to plan; a full brand-guidelines rebuild gets a spec.</div>
       </div>
       <div class="rule">
         <div class="q">Is planning the most important part?</div>
