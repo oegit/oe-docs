@@ -139,7 +139,7 @@
   <div class="wrap">
     <h2>What is a skill?</h2>
     <div class="analogy">
-      Think of a skill as <b>a recipe Claude keeps and consults on its own</b>. You don't open the recipe, copy it, or memorize it: when the conversation calls for it, Claude pulls it out of the drawer and follows it. This skill contains the complete project-Planning process, templates included.
+      Think of a skill as <b>a recipe Claude keeps and consults on its own</b>. You don't open the recipe, copy it, or memorize it: when the conversation calls for it, Claude pulls it out of the drawer and follows it. This skill contains the complete project-Planning process, templates included — plus the Spec Doc process for large projects.
     </div>
   </div>
 </section>
@@ -150,12 +150,12 @@
     <p class="sec-note">Download the skill <a href="#" id="download-skill"><code>planning-kickoff.skill</code></a></p>
     <div class="steps">
       <div class="step">
-        <h3>Upload the skill file</h3>
-        <p>Download <code>planning-kickoff.skill</code>, then upload it via Settings → Features → Custom Skills → Upload (or drop it directly into a chat). Either way, it appears as a card with the skill's name.</p>
+        <h3>Upload it in Settings → Skills</h3>
+        <p>Go to <b>Settings → Skills</b> (under Customize), click <b>Upload skill</b>, and drag the <code>.skill</code> file into the dialog. It validates and installs on the spot — available in all your new chats, on any device.</p>
       </div>
       <div class="step">
-        <h3>Click "Save skill"</h3>
-        <p>The button is on the card. That installs the skill in your account — available in all your new chats, on any device.</p>
+        <h3>Or install it from a chat</h3>
+        <p>Alternative path: drop the <code>.skill</code> file into any chat and click <b>Save skill</b> on the card that appears — or <b>Update skill</b> if you already have an older version installed.</p>
       </div>
     </div>
   </div>
@@ -185,7 +185,7 @@
         <span class="who">Claude</span>
         Here's your phased plan: executive summary, assumptions to verify, ordered tasks each with a verification step, risks, and what was left out. 📄 PLAN_REDESIGN.md
       </div>
-      <p class="chat-note">The trigger phrase: "let's plan...", "help me plan...", "new project: ...". Claude detects the intent and loads the skill on its own.</p>
+      <p class="chat-note">The trigger phrase: "let's plan...", "help me plan...", "new project: ..." — or "let's build the Spec Doc for..." when a large project needs a full spec before planning. Claude detects the intent and loads the skill on its own.</p>
     </div>
 
     <div class="steps" style="margin-top:28px">
@@ -252,11 +252,15 @@
     <div class="faq">
       <details>
         <summary>Does it work in any Claude account?</summary>
-        <p>Yes. Anyone with the <code>.skill</code> file can install it in their own account with "Save skill". It doesn't depend on your organization or your plan.</p>
+        <p>Yes. Anyone with the <code>.skill</code> file can install it in their own account. It doesn't depend on your organization or your plan.</p>
       </details>
       <details>
         <summary>How do I share it with someone else?</summary>
-        <p>Send them the <code>planning-kickoff.skill</code> file (chat, email, or drive). They upload it via Settings → Features → Custom Skills (or drop it into a chat) and click "Save skill". Done.</p>
+        <p>Send them the <code>planning-kickoff.skill</code> file (chat, email, or drive). They install it via <b>Settings → Skills → Upload skill</b>, or by dropping it into a chat and clicking "Save skill". Done.</p>
+      </details>
+      <details>
+        <summary>The upload fails with "SKILL.md must start with YAML frontmatter (---)"</summary>
+        <p>That message is misleading: the upload validator also rejects skills whose <code>description</code> exceeds claude.ai's 200-character limit, or ZIPs that don't contain the skill folder at their root. Download the <code>.skill</code> from this guide again — the current version complies with both — and re-upload it.</p>
       </details>
       <details>
         <summary>What if it doesn't activate on its own?</summary>
@@ -276,7 +280,7 @@
 
 <footer>
   <div class="wrap">
-    Planning-kickoff · Generic guide v1.1 · July 2026 · Made with Claude
+    Planning-kickoff · Generic guide v1.2 · July 2026 · Made with Claude
   </div>
 </footer>
 
@@ -292,11 +296,13 @@ document.getElementById('download-skill').addEventListener('click', async functi
     var files = {
       'planning-kickoff/SKILL.md': base + 'SKILL.md',
       'planning-kickoff/references/PLANNING_TEMPLATE_CHAT.md': base + 'references/PLANNING_TEMPLATE_CHAT.md',
-      'planning-kickoff/references/PLANNING_TEMPLATE_CLAUDE_CODE.md': base + 'references/PLANNING_TEMPLATE_CLAUDE_CODE.md'
+      'planning-kickoff/references/PLANNING_TEMPLATE_CLAUDE_CODE.md': base + 'references/PLANNING_TEMPLATE_CLAUDE_CODE.md',
+      'planning-kickoff/references/SPEC_DOC_PROCESS.md': base + 'references/SPEC_DOC_PROCESS.md'
     };
     var zip = new JSZip();
     for (var zipPath in files) {
       var res = await fetch(files[zipPath]);
+      if (!res.ok) throw new Error('Missing ' + files[zipPath]);
       var text = await res.text();
       zip.file(zipPath, text);
     }
